@@ -1,24 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.scss';
 
-function App() {
+import { 
+  MockBackendAdapter,
+  MockBackendUrl,
+  UrlsConfig
+} from '@core/mock-backend';
+
+const App = () => {
+  (async (adapter) => {
+    adapter
+      .initAdapter()
+      .initConfig(new MockBackendUrl(UrlsConfig))
+      .initGlobalMethods();
+
+    const response = await axios.get('api/users', {
+      params: {
+        page: 1,
+        pagesize: 10
+      }
+    });
+    console.log('Response: ', response);
+  })(new MockBackendAdapter());
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      App
     </div>
   );
 }
