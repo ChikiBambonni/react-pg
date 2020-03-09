@@ -1,19 +1,20 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import * as UrlPattern from 'url-pattern';
+import { always } from 'ramda';
 
 import { defaultMockDelay } from './mock-backend-config.constants';
 
 export const createBackendAdapter = () => {
-    const key = () => 'mock_data_service_1';
-    const availableModes = ['MOCK', 'REAL'];
-    const defaultMode = availableModes[0];
-    let mode = localStorage.getItem(key()) || defaultMode;
+    const key            = always('mock_data_service_1');
+    const availableModes = always(['MOCK', 'REAL']);
+    const defaultMode    = always('MOCK');
+    let mode = localStorage.getItem(key()) || defaultMode();
     let keys = null;
     
     return () => ({
         setMode(newMode, reload) {
-            mode = availableModes.includes(newMode) ? newMode : availableModes[0];
+            mode = availableModes().includes(newMode) ? newMode : defaultMode();
             localStorage.setItem(key(), mode);
     
             if (reload) {
@@ -50,9 +51,7 @@ export const createBackendAdapter = () => {
                 (adapter => {
                     adapter.onAny().reply(req => {
                         const entity = keys.find(option => option.pattern.match(req.url));
-                        if (entity) {
-                            return [200, entity.mock().getData(req.params)];
-                        }
+                        if (entity) return [200, entity.mock().getData(req.params)];
                         
                         return [404, {}];
                     });

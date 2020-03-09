@@ -1,3 +1,6 @@
+import { Maybe } from 'ramda-fantasy';
+import { path } from 'ramda';
+
 export const getConfigUrls = config => {
     const map = Object.keys(config);
     const urls = {};
@@ -30,10 +33,14 @@ export const createTableData = ({ elements, pagesize, page }) => {
     };
 }
 
-export const getPageNumber = (pageNumber, defaultValue = 1) => {
-    return Number.isInteger(Number(pageNumber)) ? pageNumber : defaultValue;
+export const getPageNumber = (params, defaultValue = 1) => {
+    return Maybe(params).chain(() => {
+        return Maybe(Number(path(['page'], params)) || null)
+    }).getOrElse(defaultValue);
 }
 
-export const getPageSize = (pageSize, defaultValue = 10) => {
-    return Number.isInteger(Number(pageSize)) ? pageSize : defaultValue;
+export const getPageSize = (params, defaultValue = 10) => {
+    return Maybe(params).chain(() => {
+        return Maybe(Number(path(['pagesize'], params)) || null)
+    }).getOrElse(defaultValue);
 }

@@ -9,15 +9,11 @@ import {
 export const getUsersMock = () => {
     return () => ({
         getData(params) {
-            const page = getPageNumber(params.page);
-            const pagesize = getPageSize(params.pagesize);
-
             return createTableData({
                 elements: USERS_MOCK_DATA,
-                page,
-                pagesize
+                page: getPageNumber(params),
+                pagesize: getPageSize(params)
             });
         }    
     });
 };
-
