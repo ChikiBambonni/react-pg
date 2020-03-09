@@ -1,11 +1,23 @@
-import { MockBackend } from '../mock-backend.class';
 import { USERS_MOCK_DATA } from './users.constants';
 
-export class UsersMocks extends MockBackend {
+import { 
+    getPageNumber,
+    getPageSize,
+    createTableData
+} from '../mcok-backend.utils';
 
-    items = USERS_MOCK_DATA;
+export const getUsersMock = () => {
+    return () => ({
+        getData(params) {
+            const page = getPageNumber(params.page);
+            const pagesize = getPageSize(params.pagesize);
 
-    getData(params) {
-        return this.items;
-    }
-}
+            return createTableData({
+                elements: USERS_MOCK_DATA,
+                page,
+                pagesize
+            });
+        }    
+    });
+};
+

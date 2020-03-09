@@ -2,80 +2,64 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import * as UrlPattern from 'url-pattern';
 
-export class MockBackendAdapter {
+import { defaultMockDelay } from './mock-backend-config.constants';
 
-    adapter;
-    option;
-    keys;
+export const createBackendAdapter = () => {
+    const key = () => 'mock_data_service_1';
+    const availableModes = ['MOCK', 'REAL'];
+    const defaultMode = availableModes[0];
+    let mode = localStorage.getItem(key()) || defaultMode;
+    let keys = null;
     
-    key = () => 'mock_data_service_1';
-    mode = 'MOCK';
-    defaultMode = 'MOCK';
-
-    constructor () {
-        this.setMode(localStorage.getItem(this.key()) || this.defaultMode);
-    }
-
-    initConfig(configUrl) {
-        const options = configUrl.getConfig();
+    return () => ({
+        setMode(newMode, reload) {
+            mode = availableModes.includes(newMode) ? newMode : availableModes[0];
+            localStorage.setItem(key(), mode);
     
-        this.keys = Object.keys(options).map(key => ({
-            path: key,
-            pattern: new UrlPattern(key),
-            mock: options[key]
-        }));
+            if (reload) {
+                window.location.reload();
+            }
+        },
+        getMode() {
+            return mode;
+        },
+        isMock() {
+            return mode === 'MOCK';
+        },
+        initGlobalMethods() {
+            window.setMockMode = () => {
+                this.setMode('MOCK', true);
+            };
+            window.setRealMode = () => {
+                this.setMode('REAL', true);
+            };
     
-        this.options = configUrl.createMap(options);
-
-        return this;
-    }
-
-    initGlobalMethods() {
-        window.setMockMode = () => {
-          this.setMode('MOCK', true);
-        };
+            return this;
+        },
+        initConfig(urls) {
+            keys = Object.keys(urls).map(key => ({
+                path: key,
+                pattern: new UrlPattern(key),
+                mock: urls[key]
+            }));
     
-        window.setRealMode = () => {
-          this.setMode('REAL', true);
-        };
+            return this;
+        },
+        initAdapter() {
+            if (this.isMock()) {
+                (adapter => {
+                    adapter.onAny().reply(req => {
+                        const entity = keys.find(option => option.pattern.match(req.url));
+                        if (entity) {
+                            return [200, entity.mock().getData(req.params)];
+                        }
+                        
+                        return [404, {}];
+                    });
+                })(new MockAdapter(axios, { delayResponse: defaultMockDelay }));
+            }
 
-        return this;
-    }
-
-    initAdapter() {
-        if (this.isMock()) {
-            this.adapter = new MockAdapter(axios).onAny().reply(req => {
-                const entity = this.keys.find(option => option.pattern.match(req.url));
-                if (entity) {
-                    return [200, entity.mock.getData(req.params)];
-                }
-                
-                return [404, {}];
-            });
+            return this;
         }
-
-        return this;
-    }
-
-    setMode(mode, reload) {
-        this.mode = mode;
-        this.changeMode(mode, reload);
-    }
-
-    getMode() {
-        return this.mode;
-    }
-    
-    
-    isMock() {
-        return this.mode === 'MOCK';
-    }
-    
-    changeMode(mode, reload) {
-        localStorage.setItem(this.key(), mode);
-    
-        if (reload) {
-            window.location.reload();
-        }
-    }
-}
+    });
+};

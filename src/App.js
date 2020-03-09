@@ -3,26 +3,27 @@ import axios from 'axios';
 import './App.scss';
 
 import { 
-  MockBackendAdapter,
-  MockBackendUrl,
-  UrlsConfig
+  UrlsConfig,
+  getConfigUrls,
+  createBackendAdapter
 } from '@core/mock-backend';
 
 const App = () => {
   (async (adapter) => {
-    adapter
+    adapter()
+      .initConfig(getConfigUrls(UrlsConfig))
       .initAdapter()
-      .initConfig(new MockBackendUrl(UrlsConfig))
       .initGlobalMethods();
 
     const response = await axios.get('api/users', {
       params: {
-        page: 1,
-        pagesize: 10
+        page: 2,
+        pagesize: 1
       }
     });
     console.log('Response: ', response);
-  })(new MockBackendAdapter());
+  
+  })(createBackendAdapter());
   
   return (
     <div className="App">
