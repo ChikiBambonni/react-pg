@@ -1,7 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import './App.scss';
 
+import { CoreTable } from '@core/components/core-table';
 import { 
   UrlsConfig,
   getConfigUrls,
@@ -9,25 +9,15 @@ import {
 } from '@core/mock-backend';
 
 const App = () => {
-  (async (adapter) => {
-    adapter()
-      .initConfig(getConfigUrls(UrlsConfig))
-      .initAdapter()
-      .initGlobalMethods();
-
-    const response = await axios.get('api/users', {
-      params: {
-        page: 2,
-        pagesize: 1
-      }
-    });
-    console.log('Response: ', response);
-  
-  })(createBackendAdapter());
+  const adapter = createBackendAdapter();
+  adapter()
+    .initConfig(getConfigUrls(UrlsConfig))
+    .initAdapter()
+    .initGlobalMethods();
   
   return (
     <div className="App">
-      App
+      <CoreTable></CoreTable>
     </div>
   );
 }
