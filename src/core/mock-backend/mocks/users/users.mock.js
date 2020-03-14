@@ -4,7 +4,7 @@ import {
     getPageNumber,
     getPageSize,
     createTableData
-} from '../mcok-backend.utils';
+} from '../../mock-backend.utils';
 
 export const getUsersMock = () => {
     return () => ({

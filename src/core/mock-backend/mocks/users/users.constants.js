@@ -10,12 +10,15 @@ const generateUsers = (num) => {
     return new Array(num)
         .fill(null)
         .map((element, index) => {
+            return index + 1;
+        })
+        .map((element) => {
             return {
-                id: index + 1,
-                name: `Mock User ${index + 1}`,
+                id: element,
+                name: `Mock User ${element}`,
                 ip: generateRandomIp(generateRandomInt),
                 actions: generateRandomInt(0, 1000),
-                isEven: (index % 2 === 0).toString() 
+                isEven: (element % 2 === 0).toString() 
             };
         });
 }
