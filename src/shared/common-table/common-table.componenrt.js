@@ -19,8 +19,8 @@ export const CommonTable = ({ headers, rows }) => {
     const classes = useStyles();
 
     return (
-        <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
+        <TableContainer className={classes.table} component={Paper}>
+            <Table  aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         {headers.map(header => (

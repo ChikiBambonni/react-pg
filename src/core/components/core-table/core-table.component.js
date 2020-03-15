@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
-import './core-table.component.scss';
 
 import { CommonTable } from '@shared/common-table';
 import { CommonPaginator } from '@shared/common-paginator';
 import { ErrorMessage } from '@shared/error-message';
 
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  root: {
+    margin: 24,
+    width: '100%',
+    height: 'fit-content'
+  },
+});
+
+
 export const CoreTable = (props) => {
+    const classes = useStyles();
     const [headers, setHeaders] = useState([]);
     const [rows, setRows] = useState([]);
     const [count, setCount] = useState(0);
@@ -35,7 +46,7 @@ export const CoreTable = (props) => {
     }, [props.page, props.rowsPerPage]);
 
     return (
-        <Paper>
+        <Paper className={classes.root}>
             <ErrorMessage error={error}></ErrorMessage>
             <CommonTable
                 headers={headers} 

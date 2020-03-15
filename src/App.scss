@@ -1,8 +1,12 @@
+@import './styles/variables.scss';;
+
 .App {
   width: inherit;
   height: inherit;
 
   div.ui-container {
-    margin: 24px;
+    // margin: 24px;
+    display: flex;
+    height: calc(100% - #{$header-height});
   }
 }

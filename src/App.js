@@ -8,6 +8,7 @@ import {
   getConfigUrls,
   createBackendAdapter
 } from '@core/mock-backend';
+import { NestedList } from '@shared/nested-list';
 
 const App = () => {
   const adapter = createBackendAdapter();
@@ -36,6 +37,7 @@ const App = () => {
     <div className="App">
       <Header items={items}></Header>
       <div className="ui-container">
+        <NestedList></NestedList>
         <CoreTable
           rowsPerPageOptions={rowsPerPageOptions}
           rowsPerPage={rowsPerPage}
