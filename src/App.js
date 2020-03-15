@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 
 import { CoreTable } from '@core/components/core-table';
+import { Header } from '@core/components/header';
 import { 
   UrlsConfig,
   getConfigUrls,
@@ -27,15 +28,22 @@ const App = () => {
     setPage(0);
   }
 
+  const items = [{
+    title: 'item 1'
+  }];
+
   return (
     <div className="App">
-      <CoreTable
-        rowsPerPageOptions={rowsPerPageOptions}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        handleChangePage={handleChangePage}
-        handleChangeRowsPerPage={handleChangeRowsPerPage}>
-      </CoreTable>
+      <Header items={items}></Header>
+      <div className="ui-container">
+        <CoreTable
+          rowsPerPageOptions={rowsPerPageOptions}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          handleChangePage={handleChangePage}
+          handleChangeRowsPerPage={handleChangeRowsPerPage}>
+        </CoreTable>
+      </div>
     </div>
   );
 }
