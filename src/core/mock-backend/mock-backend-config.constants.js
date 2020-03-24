@@ -1,8 +1,10 @@
 import { getUsersMock } from './mocks/users';
+import { getCollectionMock } from './mocks/collections';
 
 export const UrlsConfig = {
     'api': {
-        'users': getUsersMock() 
+        'users': getUsersMock(),
+        'collections': getCollectionMock()
     }
 };
 

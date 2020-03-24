@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.scss';
 
 import { CoreTable } from '@core/components/core-table';
@@ -20,6 +21,13 @@ const App = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   
+  useEffect(() => {
+    axios.get('api/collections', {})
+      .then(response => {
+        console.log(response);
+      });
+  }, []);
+
   const rowsPerPageOptions = [5, 10, 15, 20];
   const handleChangePage = ($event, page) => {
     setPage(page);
@@ -35,7 +43,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header items={items}></Header>
+      <div className="ui-header">
+        <Header items={items}></Header>
+      </div>
       <div className="ui-container">
         <NestedList></NestedList>
         <CoreTable

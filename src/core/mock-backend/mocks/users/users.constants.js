@@ -1,14 +1,15 @@
+import { createEmptyArray } from '@core/utils';
+
 const generateRandomInt = (min, max) => {
     return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1)) + Math.ceil(min);
 };
 
-const generateRandomIp = (generator) => {
-    return `${generator(0, 255)}.${generator(0, 255)}.${generator(0, 255)}.${generator(0, 255)}`;
+const generateRandomIp = (intGenerator) => {
+    return `${intGenerator(0, 255)}.${intGenerator(0, 255)}.${intGenerator(0, 255)}.${intGenerator(0, 255)}`;
 }
 
 const generateUsers = (num) => {
-    return new Array(num)
-        .fill(null)
+    return createEmptyArray(num)
         .map((element, index) => {
             return index + 1;
         })
