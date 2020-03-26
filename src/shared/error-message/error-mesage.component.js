@@ -1,9 +1,12 @@
 import React from 'react';
-import './error-message.component.scss';
+
+import { useStyles } from './error-message.styles';
 
 export const ErrorMessage = ({ error }) => {
+  const classes = useStyles();
+
   return (
-    <div className="error-message">
+    <div className={classes.errorMessage}>
       {error !== null &&
         <div>
           <h5>Error code: {error.errorCode}</h5>

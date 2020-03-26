@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './App.scss';
 
 import { CoreTable } from '@core/components/core-table';
 import { Header } from '@core/components/header';
@@ -10,6 +9,7 @@ import {
   createBackendAdapter
 } from '@core/mock-backend';
 import { NestedList } from '@shared/nested-list';
+import { useStyles } from './App.styles';
 
 const App = () => {
   const adapter = createBackendAdapter();
@@ -41,12 +41,14 @@ const App = () => {
     setPage(0);
   }
 
+  const classes = useStyles();
+
   return (
-    <div className="App">
+    <div className={classes.app}>
       <div className="ui-header">
         <Header items={items}></Header>
       </div>
-      <div className="ui-container">
+      <div className={classes.uiContainer}>
         <NestedList items={items}></NestedList>
         <CoreTable
           rowsPerPageOptions={rowsPerPageOptions}

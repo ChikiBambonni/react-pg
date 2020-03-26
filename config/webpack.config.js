@@ -297,7 +297,8 @@ module.exports = function(webpackEnv) {
         }),
         ...(modules.webpackAliases || {}),
         '@core': path.resolve(__dirname, '../src/core'),
-        '@shared': path.resolve(__dirname, '../src/shared')
+        '@shared': path.resolve(__dirname, '../src/shared'),
+        '@styles': path.resolve(__dirname, '../src/styles')
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
