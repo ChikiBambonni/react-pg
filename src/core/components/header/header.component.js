@@ -12,22 +12,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-/* export const Header = ({ items }) => {
-  return (
-    <header id="nav-header">
-      <div className="links-container">
-        <ul className="nav-list nav-list-font">
-          {items.map(item => (
-            <li key={item.title} className="nav-list-item">
-              {item.title}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </header>
-  );
-}; */
-
 export const Header = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);

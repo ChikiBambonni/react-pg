@@ -20,11 +20,15 @@ const App = () => {
   
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [items, setItems] = useState([]);
   
   useEffect(() => {
     axios.get('api/collections', {})
       .then(response => {
-        console.log(response);
+        return response.data.elements;
+      })
+      .then(response => {
+        setItems(response);
       });
   }, []);
 
@@ -37,17 +41,13 @@ const App = () => {
     setPage(0);
   }
 
-  const items = [{
-    title: 'item 1'
-  }];
-
   return (
     <div className="App">
       <div className="ui-header">
         <Header items={items}></Header>
       </div>
       <div className="ui-container">
-        <NestedList></NestedList>
+        <NestedList items={items}></NestedList>
         <CoreTable
           rowsPerPageOptions={rowsPerPageOptions}
           rowsPerPage={rowsPerPage}

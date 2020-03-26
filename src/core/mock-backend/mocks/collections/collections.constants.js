@@ -14,10 +14,10 @@ export const generateDatabases = (n, m) => {
     })
     .map(element => {
       return {
-        database: `database ${element}`,
-        collections: generateCollections(m)
+        title: `database ${element}`, // TODO: use dynamic naming
+        children: generateCollections(m)
       }
     });
 };
 
-export const COLLECTIONS_MOCK_DATA = generateDatabases(3, 10);
+export const COLLECTIONS_MOCK_DATA = generateDatabases(3, 5);
