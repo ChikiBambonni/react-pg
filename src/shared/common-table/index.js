@@ -1,1 +1,1 @@
-export * from './common-table.componenrt';
+export * from "./common-table.componenrt";

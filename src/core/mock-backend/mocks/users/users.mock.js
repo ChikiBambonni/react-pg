@@ -1,19 +1,17 @@
-import { USERS_MOCK_DATA } from './users.constants';
+import {USERS_MOCK_DATA} from "./users.constants";
 
-import { 
-    getPageNumber,
-    getPageSize,
-    createTableData
-} from '../../mock-backend.utils';
+import {
+  createTableData,
+  getPageNumber,
+  getPageSize
+} from "../../mock-backend.utils";
 
-export const getUsersMock = () => {
-    return () => ({
-        getData(params) {
-            return createTableData({
-                elements: USERS_MOCK_DATA,
-                page: getPageNumber(params),
-                pagesize: getPageSize(params)
-            });
-        }    
+export const getUsersMock = () => () => ({
+  getData (params) {
+    return createTableData({
+      "elements": USERS_MOCK_DATA,
+      "page": getPageNumber(params),
+      "pagesize": getPageSize(params)
     });
-};
+  }
+});

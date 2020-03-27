@@ -1,11 +1,9 @@
-import { COLLECTIONS_MOCK_DATA } from './collections.constants';
+import {COLLECTIONS_MOCK_DATA} from "./collections.constants";
 
-export const getCollectionMock = () => {
-  return () => ({
-    getData(params) {
-        return ({
-            elements: COLLECTIONS_MOCK_DATA,
-        });
-    }    
-  });
-};
+export const getCollectionMock = () => () => ({
+  getData() {
+    return {
+      "elements": COLLECTIONS_MOCK_DATA
+    };
+  }
+});

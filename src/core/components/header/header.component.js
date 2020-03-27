@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import React, {useState} from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
+import {useStyles} from "./header.styles";
 
-export const Header = () => {
+export function Header () {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -22,12 +16,15 @@ export const Header = () => {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+        <Tabs
+          aria-label="simple tabs example"
+          onChange={handleChange}
+          value={value}>
           <Tab label="Item One" />
-          <Tab label="Item Two"/>
-          <Tab label="Item Three"/>
+          <Tab label="Item Two" />
+          <Tab label="Item Three" />
         </Tabs>
       </AppBar>
     </div>
   );
-};
+}

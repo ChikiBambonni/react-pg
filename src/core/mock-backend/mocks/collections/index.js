@@ -1,2 +1,2 @@
-export * from './collections.constants';
-export * from './collections.mock';
+export * from "./collections.constants";
+export * from "./collections.mock";

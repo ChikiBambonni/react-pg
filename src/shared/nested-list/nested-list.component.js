@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -60,3 +61,10 @@ export const NestedList = ({ items }) => {
     </List>
   );
 }
+
+NestedList.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    children: PropTypes.arrayOf(PropTypes.string)
+  })).isRequired,
+};

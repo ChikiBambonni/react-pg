@@ -1,17 +1,17 @@
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from "@material-ui/core/styles";
 
-import { dangerColor } from '@styles';
+import {dangerColor} from "@styles";
 
-export const useStyles = makeStyles(theme => ({
-    errorMessage: {
-        position: 'absolute',
-        color: dangerColor, // TODO: use theme there
-        textAlign: 'left',
-        '& > h5': {
-            fontSize: 16
-        },
-        '& > p': {
-            fontSize: 14
-        }
+export const useStyles = makeStyles({
+  "errorMessage": {
+    "position": "absolute",
+    "color": dangerColor, // TODO: use theme there
+    "textAlign": "left",
+    "& > h5": {
+      "fontSize": 16
+    },
+    "& > p": {
+      "fontSize": 14
     }
-}));
+  }
+});
