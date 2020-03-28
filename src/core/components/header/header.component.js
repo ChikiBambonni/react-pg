@@ -25,14 +25,12 @@ export function Header () {
         <Tabs
           inkBarStyle={{background: 'blue'}}
           onChange={handleChange}
-          value={value}>
+          value={value}
+          classes={{indicator: classes.indicator}}>
           {items.map(item => (
             <Tab
               key={item}
-              label={item}
-              classes={{
-                selected: classes.selected
-              }}>
+              label={item}>
             </Tab>
           ))}
         </Tabs>
