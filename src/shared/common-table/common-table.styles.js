@@ -1,8 +1,14 @@
 import {makeStyles} from "@material-ui/core/styles";
 
-export const useStyles = makeStyles({
-  "table": {
-    "minHeight": 400,
-    "minWidth": 650
+export const useStyles = makeStyles(theme => ({
+  table: {
+    minHeight: 400,
+    minWidth: 650,
+    boxShadow: "none",
+    backgroundColor: "inherit"
+  },
+  root: {
+    color: theme.palette.text.secondary,
+    borderBottom: `1px solid ${theme.palette.text.disabled}`,
   }
-});
+}));

@@ -45,7 +45,7 @@ const App = () => {
 
   return (
     <div className={classes.app}>
-      <div className="ui-header">
+      <div className={classes.uiHeader}>
         <Header items={items}></Header>
       </div>
       <div className={classes.uiContainer}>

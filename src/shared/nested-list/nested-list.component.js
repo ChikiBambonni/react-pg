@@ -38,7 +38,7 @@ export const NestedList = ({ items }) => {
       {items.map((item, index) => (
         <div key={item.title} className="nested-list-item">
           <ListItem button onClick={handleClick.bind(null, index)}>
-            <ListItemIcon>
+            <ListItemIcon className={classes.itemIcon}>
               <InboxIcon />
             </ListItemIcon>
             <ListItemText primary={item.title} />
@@ -48,7 +48,7 @@ export const NestedList = ({ items }) => {
             <List component="div" disablePadding>
               {item.children.map(child => (
                 <ListItem key={child} button className={classes.nested}>
-                  <ListItemIcon>
+                  <ListItemIcon className={classes.itemIcon}>
                     <StarBorder />
                   </ListItemIcon>
                   <ListItemText primary={child} />

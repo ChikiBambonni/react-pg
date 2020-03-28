@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from 'prop-types';
 import TablePagination from "@material-ui/core/TablePagination";
 
+import {useStyles} from './common-paginator.styles';
+
 export const CommonPaginator = ({
   rowsPerPageOptions,
   count,
@@ -10,6 +12,8 @@ export const CommonPaginator = ({
   handleChangePage,
   handleChangeRowsPerPage
 }) => {
+  const classes = useStyles();
+
   return (
     <TablePagination
       component="div"
@@ -18,7 +22,13 @@ export const CommonPaginator = ({
       onChangeRowsPerPage={handleChangeRowsPerPage}
       page={page}
       rowsPerPage={rowsPerPage}
-      rowsPerPageOptions={rowsPerPageOptions}>
+      rowsPerPageOptions={rowsPerPageOptions}
+      classes={{
+        caption: classes.caption,
+        selectIcon: classes.selectIcon,
+        select: classes.select,
+        actions: classes.actions
+      }}>
     </TablePagination>
   );
 }

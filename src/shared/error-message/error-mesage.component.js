@@ -10,8 +10,8 @@ export function ErrorMessage ({error}) {
     <div className={classes.errorMessage}>
       {error !== null && (
         <div>
-          <h5>Error code:{error.errorCode}</h5>
-          <p>Error message:{error.errorMessage}</p>
+          <h5>Error code: {error.errorCode}</h5>
+          <p>Error message: {error.errorMessage}</p>
         </div>
       )}
     </div>

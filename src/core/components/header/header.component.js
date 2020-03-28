@@ -13,16 +13,28 @@ export function Header () {
     setValue(newValue);
   };
 
+  const items = [
+    "Item One",
+    "Item Two",
+    "Item Three"
+  ];
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs
-          aria-label="simple tabs example"
+          inkBarStyle={{background: 'blue'}}
           onChange={handleChange}
           value={value}>
-          <Tab label="Item One" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three" />
+          {items.map(item => (
+            <Tab
+              key={item}
+              label={item}
+              classes={{
+                selected: classes.selected
+              }}>
+            </Tab>
+          ))}
         </Tabs>
       </AppBar>
     </div>

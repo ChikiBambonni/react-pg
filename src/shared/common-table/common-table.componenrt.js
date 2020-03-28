@@ -19,7 +19,11 @@ export const CommonTable = ({headers, rows}) => {
         <TableHead>
           <TableRow>
             {headers.map((header) => (
-              <TableCell key={header}>
+              <TableCell 
+                key={header}
+                classes={{
+                  root: classes.root,
+                }}>
                 {header}
               </TableCell>))}
           </TableRow>
@@ -28,7 +32,13 @@ export const CommonTable = ({headers, rows}) => {
           {rows.map((row, index) => (
             <TableRow key={index}>
               {Object.keys(row).map((cell) => (
-                <TableCell key={cell} component="th" scope="row">
+                <TableCell 
+                  key={cell}
+                  component="th"
+                  scope="row"
+                  classes={{
+                    root: classes.root,
+                  }}>
                   {row[cell]}
                 </TableCell>
               ))}
