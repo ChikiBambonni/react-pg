@@ -1,21 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 
+import { useSize } from '@core/hooks';
 import { CommonTable } from '@shared/common-table';
 import { CommonPaginator } from '@shared/common-paginator';
 import { ErrorMessage } from '@shared/error-message';
+import { CommonSpinner } from '@shared/common-spinner';
 import { useStyles } from './core-table.style';
 
 export const CoreTable = (props) => {
   const classes = useStyles();
+
   const [headers, setHeaders] = useState([]);
-  const [rows, setRows] = useState([]);
-  const [count, setCount] = useState(0);
-  const [error, setError] = useState(null);
+  const [rows, setRows]       = useState([]);
+  const [count, setCount]     = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError]     = useState(null);
+  
+  const tableRef = useRef(null);
+  const { height, width } = useSize(tableRef);
 
   useEffect(() => {
+    setLoading(true);
     axios.get('api/users', {
       params: {
         pagesize: props.rowsPerPage,
@@ -27,30 +35,41 @@ export const CoreTable = (props) => {
       setRows(data.elements);
       setCount(data.totalElements);
       setError(null);
+      setLoading(false);
     }).catch(err => {
       setError({
         errorCode: err.response.status,
         errorMessage: err.message
       });
     });
-        
   }, [props.page, props.rowsPerPage]);
 
   return (
     <Paper className={classes.root}>
       <ErrorMessage error={error}></ErrorMessage>
-      <CommonTable
-        headers={headers} 
-        rows={rows}>
-      </CommonTable>
-      <CommonPaginator
-        rowsPerPageOptions={props.rowsPerPageOptions}
-        count={count}
-        rowsPerPage={props.rowsPerPage}
-        page={props.page}
-        handleChangePage={props.handleChangePage}
-        handleChangeRowsPerPage={props.handleChangeRowsPerPage}>
-      </CommonPaginator>
+      <div className={classes.tableContainer} ref={tableRef}>
+        <CommonSpinner
+          height={height}
+          width={width}
+          loading={loading}>
+        </CommonSpinner>
+        <div className="tableWrapper">
+          <CommonTable
+            headers={headers} 
+            rows={rows}>
+          </CommonTable>
+        </div>
+        <div className="paginatorWrapper">
+          <CommonPaginator
+            rowsPerPageOptions={props.rowsPerPageOptions}
+            count={count}
+            rowsPerPage={props.rowsPerPage}
+            page={props.page}
+            handleChangePage={props.handleChangePage}
+            handleChangeRowsPerPage={props.handleChangeRowsPerPage}>
+          </CommonPaginator>
+        </div>
+      </div>
     </Paper>
   );
 };

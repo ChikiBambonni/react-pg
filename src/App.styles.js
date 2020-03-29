@@ -10,6 +10,6 @@ export const useStyles = makeStyles({
   },
   uiContainer: {
     display: "flex",
-    height: `calc(100% - ${40}px)` // TODO: move to theme
+    height: `calc(100% - ${49}px)` // TODO: move to theme
   }
 });

@@ -1,6 +1,11 @@
 import {makeStyles} from "@material-ui/core/styles";
 
 export const useStyles = makeStyles(theme => ({
+  root: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+  },
   caption: {
     color: theme.palette.text.secondary
   },

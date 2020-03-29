@@ -1,6 +1,9 @@
 import { createMuiTheme } from '@material-ui/core/styles';  
 
+import { spacing } from './variables';
+
 export const theme = createMuiTheme({
+  spacing,
   palette: {
     primary: {
       light: "#222A45",

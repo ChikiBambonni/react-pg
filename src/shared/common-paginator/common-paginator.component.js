@@ -24,6 +24,7 @@ export const CommonPaginator = ({
       rowsPerPage={rowsPerPage}
       rowsPerPageOptions={rowsPerPageOptions}
       classes={{
+        root: classes.root,
         caption: classes.caption,
         selectIcon: classes.selectIcon,
         select: classes.select,
