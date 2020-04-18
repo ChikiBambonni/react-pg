@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 
 import { CommonTable } from '@shared/common-table';
 import { CommonPaginator } from '@shared/common-paginator';
 import { ErrorMessage } from '@shared/error-message';
 import { CommonSpinner } from '@shared/common-spinner';
+import { useFetch } from '@core/hooks';
+import { fetchTableData } from './core-table.data';
 import { useStyles } from './core-table.style';
 
 export const CoreTable = props => {
@@ -17,27 +18,23 @@ export const CoreTable = props => {
   const [count, setCount]     = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState(null);
-  
+
+  const fetchEffect = fetchTableData(
+    props.page + 1, 
+    props.rowsPerPage
+  );
+
   useEffect(() => {
-    setLoading(true);
-    axios.get('api/users', {
-      params: {
-        pagesize: props.rowsPerPage,
-        page: props.page + 1
+    useFetch(
+      fetchEffect,
+      setLoading,
+      setError
+    ).then(res => {
+      if (res) {
+        setHeaders(Object.keys(res.elements[0] || []));
+        setRows(res.elements);
+        setCount(res.totalElements);
       }
-    }).then(response => {
-      const { data } = response;
-      setHeaders(Object.keys(data.elements[0] || []));
-      setRows(data.elements);
-      setCount(data.totalElements);
-      setError(null);
-      setLoading(false);
-    }).catch(err => {
-      setError({
-        errorCode: err.response.status,
-        errorMessage: err.message
-      });
-      setLoading(false);
     });
   }, [props.page, props.rowsPerPage]);
 
