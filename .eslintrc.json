@@ -1,4 +1,11 @@
 {
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "detect"
+    }
+  },
   "env": {
     "browser": true
   },
@@ -16,6 +23,7 @@
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
     "one-var": ["error", "never"],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "prefer-arrow-callback": "error"
   }
 }

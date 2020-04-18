@@ -5,7 +5,7 @@ import Tab from "@material-ui/core/Tab";
 
 import {useStyles} from "./header.styles";
 
-export function Header () {
+export const Header = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 

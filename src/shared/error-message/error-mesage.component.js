@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { useStyles } from "./error-message.styles";
 
-export function ErrorMessage ({error}) {
+export const ErrorMessage = ({error}) => {
   const classes = useStyles();
 
   return (

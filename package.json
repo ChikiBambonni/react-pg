@@ -153,6 +153,13 @@
     ]
   },
   "devDependencies": {
-    "axios-mock-adapter": "^1.17.0"
+    "axios-mock-adapter": "^1.17.0",
+    "husky": "^4.2.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint",
+      "pre-push": "npm run test"
+    }
   }
 }
