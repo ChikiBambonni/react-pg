@@ -1,6 +1,6 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import * as UrlPattern from "url-pattern";
+import UrlPattern from "url-pattern";
 import {always} from "ramda";
 
 import {defaultMockDelay} from "./mock-backend-config.constants";
@@ -37,7 +37,7 @@ export const createBackendAdapter = () => {
       return this;
     },
     initConfig (urls) {
-      keys = Object.keys(urls).map((key) => ({
+      keys = Object.keys(urls).map(key => ({
         "path": key,
         "pattern": new UrlPattern(key),
         "mock": urls[key]
@@ -47,9 +47,9 @@ export const createBackendAdapter = () => {
     },
     initAdapter () {
       if (this.isMock()) {
-        ((adapter) => {
-          adapter.onAny().reply((req) => {
-            const entity = keys.find((option) => option.pattern.match(req.url));
+        (adapter => {
+          adapter.onAny().reply(req => {
+            const entity = keys.find(option => option.pattern.match(req.url));
             if (entity) {
               return [200, entity.mock().getData(req.params)];
             }

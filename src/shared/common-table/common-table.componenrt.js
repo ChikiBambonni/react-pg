@@ -18,7 +18,7 @@ export const CommonTable = ({headers, rows}) => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            {headers.map((header) => (
+            {headers.map(header => (
               <TableCell 
                 key={header}
                 classes={{
@@ -31,7 +31,7 @@ export const CommonTable = ({headers, rows}) => {
         <TableBody>
           {rows.map((row, index) => (
             <TableRow key={index}>
-              {Object.keys(row).map((cell) => (
+              {Object.keys(row).map(cell => (
                 <TableCell 
                   key={cell}
                   component="th"

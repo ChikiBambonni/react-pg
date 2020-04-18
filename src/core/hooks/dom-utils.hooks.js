@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const useSize = (ref) => {
+export const useSize = ref => {
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
 

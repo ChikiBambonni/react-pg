@@ -1,6 +1,6 @@
 import { createEmptyArray } from '@core/utils';
 
-export const generateCollections = (n) => {
+export const generateCollections = n => {
   return createEmptyArray(n)
     .map((element, index) => {
       return `collection ${index}`; 

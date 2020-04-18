@@ -36,7 +36,7 @@ const App = () => {
   const handleChangePage = ($event, page) => {
     setPage(page);
   };
-  const handleChangeRowsPerPage = ($event) => {
+  const handleChangeRowsPerPage = $event => {
     setRowsPerPage(parseInt($event.target.value, 10));
     setPage(0);
   }

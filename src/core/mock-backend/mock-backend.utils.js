@@ -3,13 +3,13 @@ import {path} from "ramda";
 
 import {NaNtoNull} from "@core/utils";
 
-export const getConfigUrls = (config) => {
+export const getConfigUrls = config => {
   const map = Object.keys(config);
   const urls = {};
 
-  map.forEach((type) => {
+  map.forEach(type => {
     const urlList = Object.keys(config[type]);
-    urlList.forEach((url) => urls[`${type}/${url}`] = config[type][url]);
+    urlList.forEach(url => urls[`${type}/${url}`] = config[type][url]);
   });
 
   return urls;

@@ -9,7 +9,7 @@ import { ErrorMessage } from '@shared/error-message';
 import { CommonSpinner } from '@shared/common-spinner';
 import { useStyles } from './core-table.style';
 
-export const CoreTable = (props) => {
+export const CoreTable = props => {
   const classes = useStyles();
 
   const [headers, setHeaders] = useState([]);
