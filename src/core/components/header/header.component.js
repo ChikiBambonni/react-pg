@@ -23,7 +23,6 @@ export function Header () {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs
-          inkBarStyle={{background: 'blue'}}
           onChange={handleChange}
           value={value}
           classes={{indicator: classes.indicator}}>

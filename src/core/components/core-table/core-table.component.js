@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import Paper from '@material-ui/core/Paper';
 
-import { useSize } from '@core/hooks';
 import { CommonTable } from '@shared/common-table';
 import { CommonPaginator } from '@shared/common-paginator';
 import { ErrorMessage } from '@shared/error-message';
@@ -19,9 +18,6 @@ export const CoreTable = (props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError]     = useState(null);
   
-  const tableRef = useRef(null);
-  const { height, width } = useSize(tableRef);
-
   useEffect(() => {
     setLoading(true);
     axios.get('api/users', {
@@ -47,10 +43,8 @@ export const CoreTable = (props) => {
   return (
     <Paper className={classes.root}>
       <ErrorMessage error={error}></ErrorMessage>
-      <div className={classes.tableContainer} ref={tableRef}>
+      <div className={classes.tableContainer}>
         <CommonSpinner
-          height={height}
-          width={width}
           loading={loading}>
         </CommonSpinner>
         <div className="tableWrapper">

@@ -1,21 +1,20 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import GridLoader from "react-spinners/GridLoader";
 
-import { warning$1, spacing } from '@styles/variables';
+import { warning$1 } from '@styles/variables';
 import { useStyles } from './common-spinner.styles';
 
-export const CommonSpinner = ({ loading, height, width }) => {
+export const CommonSpinner = ({ loading }) => {
   const classes = useStyles();
 
   return (
     <div
       className={classes.loadingShade} 
       style={{
-        display: loading ? 'flex' : 'none',
-        height: height + spacing * 6 * 2,
-        width: width + spacing * 6 * 2,
-        margin: -1 * spacing * 6}}>
+        display: loading ? 'flex' : 'none'
+      }}
+    >
       <GridLoader
         color={warning$1}
         loading={loading}>
@@ -25,7 +24,5 @@ export const CommonSpinner = ({ loading, height, width }) => {
 }
 
 CommonSpinner.propTypes = {
-  loading: PropTypes.bool,
-  height: PropTypes.number,
-  width: PropTypes.number
+  loading: PropTypes.bool
 }

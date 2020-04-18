@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
     overflowY: "auto"
   },
   nested: {
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(12) 
   },
   itemIcon: {
     color: theme.palette.text.secondary

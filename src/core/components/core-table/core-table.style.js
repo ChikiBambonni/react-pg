@@ -2,6 +2,7 @@ import {makeStyles} from "@material-ui/core/styles";
 
 export const useStyles = makeStyles(theme => ({
   root: {
+    position: "relative",
     width: "100%",
     padding: theme.spacing(6),
     boxShadow: "none",
