@@ -19,7 +19,7 @@ const App = () => {
     .initGlobalMethods();
   
   const [page, setPage]               = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [pagesize, setPagesize]       = useState(10);
   const [items, setItems]             = useState([]);
   const [error, setError]             = useState(null);
   
@@ -39,12 +39,12 @@ const App = () => {
       });
   }, []);
 
-  const rowsPerPageOptions = [5, 10, 15, 20];
+  const pagesizeOptions = [5, 10, 15, 20];
   const handleChangePage = ($event, page) => {
     setPage(page);
   };
-  const handleChangeRowsPerPage = $event => {
-    setRowsPerPage(parseInt($event.target.value, 10));
+  const handleChangePagesize = $event => {
+    setPagesize(parseInt($event.target.value, 10));
     setPage(0);
   }
 
@@ -61,11 +61,11 @@ const App = () => {
           error={error}
         />
         <CoreTable
-          rowsPerPageOptions={rowsPerPageOptions}
-          rowsPerPage={rowsPerPage}
+          pagesizeOptions={pagesizeOptions}
+          pagesize={pagesize}
           page={page}
           handleChangePage={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}>
+          handleChangePagesize={handleChangePagesize}>
         </CoreTable>
       </div>
     </div>

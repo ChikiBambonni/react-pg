@@ -5,12 +5,12 @@ import TablePagination from "@material-ui/core/TablePagination";
 import {useStyles} from './common-paginator.styles';
 
 export const CommonPaginator = ({
-  rowsPerPageOptions,
+  pagesizeOptions,
   count,
-  rowsPerPage,
+  pagesize,
   page,
   handleChangePage,
-  handleChangeRowsPerPage
+  handleChangePagesize
 }) => {
   const classes = useStyles();
 
@@ -19,10 +19,10 @@ export const CommonPaginator = ({
       component="div"
       count={count}
       onChangePage={handleChangePage}
-      onChangeRowsPerPage={handleChangeRowsPerPage}
+      onChangeRowsPerPage={handleChangePagesize}
       page={page}
-      rowsPerPage={rowsPerPage}
-      rowsPerPageOptions={rowsPerPageOptions}
+      rowsPerPage={pagesize}
+      rowsPerPageOptions={pagesizeOptions}
       classes={{
         root: classes.root,
         caption: classes.caption,
@@ -35,10 +35,10 @@ export const CommonPaginator = ({
 }
 
 CommonPaginator.propTypes = {
-  rowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
-  count: PropTypes.number,
-  rowsPerPage: PropTypes.number,
-  page: PropTypes.number,
-  handleChangePage: PropTypes.func,
-  handleChangeRowsPerPage: PropTypes.func
+  pagesizeOptions: PropTypes.arrayOf(PropTypes.number).isRequired,
+  count: PropTypes.number.isRequired,
+  pagesize: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  handleChangePage: PropTypes.func.isRequired,
+  handleChangePagesize: PropTypes.func.isRequired
 }

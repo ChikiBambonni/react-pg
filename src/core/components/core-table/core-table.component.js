@@ -21,7 +21,7 @@ export const CoreTable = props => {
 
   const fetchEffect = fetchTableData(
     props.page + 1, 
-    props.rowsPerPage
+    props.pagesize
   );
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export const CoreTable = props => {
         setCount(res.totalElements);
       }
     });
-  }, [props.page, props.rowsPerPage]);
+  }, [props.page, props.pagesize]);
 
   return (
     <Paper className={classes.root}>
@@ -53,12 +53,12 @@ export const CoreTable = props => {
         </div>
         <div className="paginatorWrapper">
           <CommonPaginator
-            rowsPerPageOptions={props.rowsPerPageOptions}
+            pagesizeOptions={props.pagesizeOptions}
             count={count}
-            rowsPerPage={props.rowsPerPage}
+            pagesize={props.pagesize}
             page={props.page}
             handleChangePage={props.handleChangePage}
-            handleChangeRowsPerPage={props.handleChangeRowsPerPage}>
+            handleChangePagesize={props.handleChangePagesize}>
           </CommonPaginator>
         </div>
       </div>
@@ -67,9 +67,9 @@ export const CoreTable = props => {
 };
 
 CoreTable.propTypes = {
-  rowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
-  rowsPerPage: PropTypes.number,
+  pagesizeOptions: PropTypes.arrayOf(PropTypes.number),
+  pagesize: PropTypes.number,
   page: PropTypes.number,
   handleChangePage: PropTypes.func,
-  handleChangeRowsPerPage: PropTypes.func
+  handleChangePagesize: PropTypes.func
 }
