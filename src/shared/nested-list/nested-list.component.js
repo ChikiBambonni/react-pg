@@ -11,9 +11,10 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
 
+import { ErrorMessage } from '@shared/error-message';
 import { useStyles } from './nested-list.styles';
 
-export const NestedList = ({ items }) => {
+export const NestedList = ({ items, error }) => {
   const classes = useStyles();
   const [openArr, setOpenArr] = React.useState(
     new Array(items.length).fill(false)
@@ -35,6 +36,9 @@ export const NestedList = ({ items }) => {
         </ListSubheader>
       }
       className={classes.root}>
+      <div className={classes.error}>
+        <ErrorMessage error={error} />
+      </div>
       {items.map((item, index) => (
         <div key={item.title} className="nested-list-item">
           <ListItem button onClick={handleClick.bind(null, index)}>
@@ -67,4 +71,8 @@ NestedList.propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.arrayOf(PropTypes.string)
   })).isRequired,
+  error: PropTypes.shape({
+    errorCode: PropTypes.number,
+    errorMessage: PropTypes.string
+  })
 };

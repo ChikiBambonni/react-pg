@@ -18,9 +18,10 @@ const App = () => {
     .initAdapter()
     .initGlobalMethods();
   
-  const [page, setPage] = useState(0);
+  const [page, setPage]               = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [items, setItems] = useState([]);
+  const [items, setItems]             = useState([]);
+  const [error, setError]             = useState(null);
   
   useEffect(() => {
     axios.get('api/collections', {})
@@ -29,6 +30,12 @@ const App = () => {
       })
       .then(response => {
         setItems(response);
+        setError(null);
+      }).catch(err => {
+        setError({
+          errorCode: err.response.status,
+          errorMessage: err.message
+        });
       });
   }, []);
 
@@ -46,10 +53,13 @@ const App = () => {
   return (
     <div className={classes.app}>
       <div className={classes.uiHeader}>
-        <Header items={items}></Header>
+        <Header items={items} />
       </div>
       <div className={classes.uiContainer}>
-        <NestedList items={items}></NestedList>
+        <NestedList 
+          items={items}
+          error={error}
+        />
         <CoreTable
           rowsPerPageOptions={rowsPerPageOptions}
           rowsPerPage={rowsPerPage}

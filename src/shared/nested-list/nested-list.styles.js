@@ -13,5 +13,9 @@ export const useStyles = makeStyles(theme => ({
   },
   itemIcon: {
     color: theme.palette.text.secondary
+  },
+  error: {
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4)
   }
 }));

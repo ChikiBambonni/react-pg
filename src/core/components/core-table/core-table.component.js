@@ -37,6 +37,7 @@ export const CoreTable = props => {
         errorCode: err.response.status,
         errorMessage: err.message
       });
+      setLoading(false);
     });
   }, [props.page, props.rowsPerPage]);
 
