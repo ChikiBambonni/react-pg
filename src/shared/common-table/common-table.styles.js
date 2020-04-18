@@ -9,5 +9,9 @@ export const useStyles = makeStyles(theme => ({
   root: {
     color: theme.palette.text.secondary,
     borderBottom: `1px solid ${theme.palette.text.disabled}`,
+  },
+  cellContainer: {
+    display: "flex",
+    justifyContent: "space-between"
   }
 }));

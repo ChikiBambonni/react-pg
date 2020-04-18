@@ -28,5 +28,14 @@ export const theme = createMuiTheme({
         backgroundColor: "#222A45"
       },
     },
+    MuiFormLabel: {
+      root: {
+        "&$focused": {
+          color: textColors.disabled,
+          fontWeight: "bold"
+        }
+      },
+      focused: {}
+    }
   }
 });

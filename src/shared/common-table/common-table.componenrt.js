@@ -26,9 +26,15 @@ export const CommonTable = ({headers, rows}) => {
                   root: classes.root,
                 }}
               >
-                <div>
+                <div className={classes.cellContainer}>
                   <div>{header}</div>
-                  {header === "name" && <div><ColumnFilters /></div>}
+                  {header === "name" && 
+                    <div>
+                      <ColumnFilters 
+                        items={headers}
+                      />
+                    </div>
+                  }
                 </div>
               </TableCell>))}
           </TableRow>
