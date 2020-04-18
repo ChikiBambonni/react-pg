@@ -8,6 +8,9 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     overflowY: "auto"
   },
+  nestedListSubheader: {
+    borderBottom: `1px solid ${theme.palette.text.disabled}`,
+  },
   nested: {
     paddingLeft: theme.spacing(12) 
   },

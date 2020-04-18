@@ -29,13 +29,16 @@ export const NestedList = ({ items, error }) => {
   return (
     <List
       component="nav"
-      aria-labelledby="nested-list-subheader"
       subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
+        <ListSubheader 
+          component="div" 
+          className={classes.nestedListSubheader}
+        >
           Collections
         </ListSubheader>
       }
-      className={classes.root}>
+      className={classes.root}
+    >
       <div className={classes.error}>
         <ErrorMessage error={error} />
       </div>
