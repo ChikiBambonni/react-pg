@@ -1,5 +1,5 @@
 import {Maybe} from "ramda-fantasy";
-import {path} from "ramda";
+import {path, isEmpty, pick} from "ramda";
 
 import {NaNtoNull} from "@core/utils";
 
@@ -15,12 +15,22 @@ export const getConfigUrls = config => {
   return urls;
 };
 
-export const createTableData = ({elements, pagesize, page}) => {
+export const createTableData = ({elements, pagesize, page, keys}) => {
   const offset = (page - 1) * pagesize;
   const offsetElements = elements.slice(
     offset,
     offset + Number(pagesize)
   );
+
+  if (!isEmpty(keys)) {
+    const fields = Object.keys(keys).filter(k => Boolean(keys[k]));
+    const filteredElements = elements.map(e => pick(fields, e));
+    
+    return {
+      "totalElements": filteredElements.length,
+      "elements": filteredElements
+    }
+  }
 
   return {
     "totalPages": Math.ceil(elements.length / pagesize),
@@ -36,5 +46,9 @@ export const getPageNumber = (params, defaultValue = 1) => {
 };
 
 export const getPageSize = (params, defaultValue = 10) => {
-  return Maybe(NaNtoNull(Number(path(["pagesize"],params)))).getOrElse(defaultValue);
-}
+  return Maybe(NaNtoNull(Number(path(["pagesize"], params)))).getOrElse(defaultValue);
+};
+
+export const getKeys = (params, defaultValue = {}) => {
+  return Maybe(path(["keys"], params)).getOrElse(defaultValue);
+};

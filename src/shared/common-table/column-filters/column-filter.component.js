@@ -22,14 +22,17 @@ export const ColumnFilters = props => {
   const filtersWrapperRef = useRef(null);
   useOutsideClick(filtersWrapperRef, () => {
     setIsExpanded(false);
-  });
+  }); 
 
   return (
     <div>
       <div className={classes.iconContainer}>
         <FilterListIcon 
           className="icon"
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={() => { 
+            setIsExpanded(!isExpanded);
+            if (!isExpanded) props.onFilterExpand(props.columnName);
+          }}
         />
       </div>
       {isExpanded && 
@@ -100,5 +103,7 @@ export const ColumnFilters = props => {
 };
 
 ColumnFilters.propTypes = {
-  items: PropTypes.string
+  columnName: PropTypes.string.isRequired,
+  items: PropTypes.string.isRequired,
+  onFilterExpand: PropTypes.func
 };

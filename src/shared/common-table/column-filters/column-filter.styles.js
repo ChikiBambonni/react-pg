@@ -17,7 +17,6 @@ export const useStyles = makeStyles(theme => ({
   filtersWrapper: {
     position: "absolute",
     top: 30,
-    left: 224,
     boxShadow: "5px 5px 10px rgba(0,0,0,.3)",
   },
   filtersContainer: {

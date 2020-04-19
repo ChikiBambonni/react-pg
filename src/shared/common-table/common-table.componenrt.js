@@ -11,7 +11,7 @@ import Paper from "@material-ui/core/Paper";
 import { ColumnFilters } from "./column-filters";
 import { useStyles } from "./common-table.styles";
 
-export const CommonTable = ({headers, rows}) => {
+export const CommonTable = ({headers, rows, columnData, onFilterExpand}) => {
   const classes = useStyles();
 
   return (
@@ -30,8 +30,10 @@ export const CommonTable = ({headers, rows}) => {
                   <div>{header}</div>
                   {header === "name" && 
                     <div>
-                      <ColumnFilters 
-                        items={headers}
+                      <ColumnFilters
+                        columnName={header}
+                        items={columnData}
+                        onFilterExpand={onFilterExpand}
                       />
                     </div>
                   }
@@ -63,5 +65,7 @@ export const CommonTable = ({headers, rows}) => {
 
 CommonTable.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.string),
-  rows: PropTypes.arrayOf(PropTypes.object)
+  rows: PropTypes.arrayOf(PropTypes.object),
+  columnData: PropTypes.arrayOf(PropTypes.string),
+  onFilterExpand: PropTypes.func
 }

@@ -7,24 +7,25 @@ import { CommonPaginator } from '@shared/common-paginator';
 import { ErrorMessage } from '@shared/error-message';
 import { CommonSpinner } from '@shared/common-spinner';
 import { useFetch } from '@core/hooks';
-import { fetchTableData } from './core-table.data';
+import { fetchTableData, fetchTableColumn } from './core-table.data';
 import { useStyles } from './core-table.style';
 
 export const CoreTable = props => {
   const classes = useStyles();
 
-  const [headers, setHeaders] = useState([]);
-  const [rows, setRows]       = useState([]);
-  const [count, setCount]     = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
-
-  const fetchEffect = fetchTableData(
-    props.page + 1, 
-    props.pagesize
-  );
+  const [headers, setHeaders]       = useState([]);
+  const [rows, setRows]             = useState([]);
+  const [columnData, setColumnData] = useState([]);
+  const [count, setCount]           = useState(0);
+  const [loading, setLoading]       = useState(true);
+  const [error, setError]           = useState(null);
 
   useEffect(() => {
+    const fetchEffect = fetchTableData(
+      props.page + 1, 
+      props.pagesize
+    );
+
     useFetch(
       fetchEffect,
       setLoading,
@@ -38,6 +39,13 @@ export const CoreTable = props => {
     });
   }, [props.page, props.pagesize]);
 
+  const onFilterExpand = name => {
+    fetchTableColumn({[name]: 1})()
+      .then(res => res.elements)
+      .then(res => res.map(e => e[name]))
+      .then(res => setColumnData(res));
+  };
+
   return (
     <Paper className={classes.root}>
       <ErrorMessage error={error}></ErrorMessage>
@@ -48,7 +56,10 @@ export const CoreTable = props => {
         <div className="tableWrapper">
           <CommonTable
             headers={headers} 
-            rows={rows}>
+            rows={rows}
+            columnData={columnData}
+            onFilterExpand={onFilterExpand}
+          >
           </CommonTable>
         </div>
         <div className="paginatorWrapper">
