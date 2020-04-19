@@ -51,7 +51,8 @@ export const CommonTable = ({headers, rows, columnData, onFilterExpand}) => {
                   scope="row"
                   classes={{
                     root: classes.root,
-                  }}>
+                  }}
+                >
                   {row[cell]}
                 </TableCell>
               ))}

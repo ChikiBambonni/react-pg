@@ -17,12 +17,27 @@ import { useStyles } from "./column-filter.styles";
 export const ColumnFilters = props => {
   const classes = useStyles();
 
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded]             = useState(false);
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const [checkedItems, setCheckedItems]         = useState([]);
   
   const filtersWrapperRef = useRef(null);
   useOutsideClick(filtersWrapperRef, () => {
     setIsExpanded(false);
-  }); 
+  });
+
+  const handleItemChange = item => {
+    const items = checkedItems.includes(item) ?
+      checkedItems.filter(i => i !== item) :
+      [...checkedItems, item];
+    setCheckedItems(items);
+    setSelectAllChecked(items.length === props.items.length);
+  };
+
+  const handleSelectAllChange = () => {
+    setCheckedItems(!selectAllChecked ? props.items : []);
+    setSelectAllChecked(!selectAllChecked);
+  };
 
   return (
     <div>
@@ -67,8 +82,8 @@ export const ColumnFilters = props => {
                   <FormControlLabel
                     control={
                       <Checkbox 
-                        checked={false}
-                        onChange={() => console.log('Select All')}
+                        checked={selectAllChecked}
+                        onChange={() => handleSelectAllChange()}
                         name="all" 
                       />
                     }
@@ -85,7 +100,8 @@ export const ColumnFilters = props => {
                       key={item}
                       control={
                         <Checkbox
-                          onChange={() => console.log('change')}
+                          checked={checkedItems.includes(item)}
+                          onChange={() => handleItemChange(item)}
                           name={item}
                         />
                       }
