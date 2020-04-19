@@ -16,7 +16,8 @@ export const useStyles = makeStyles(theme => ({
   },
   filtersWrapper: {
     position: "absolute",
-    top: 30,
+    top: 0,
+    right: 0,
     boxShadow: "5px 5px 10px rgba(0,0,0,.3)",
   },
   filtersContainer: {
@@ -39,7 +40,14 @@ export const useStyles = makeStyles(theme => ({
     borderBottom: `1px solid ${theme.palette.text.disabled}`
   },
   selectContainer: {
+    position: "relative",
     height: 220,
-    overflow: "auto"
+    overflow: "auto",
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+    marginLeft: theme.spacing(-4),
+    marginRight: theme.spacing(-4),
+    marginBottom: theme.spacing(-4),
   }
 }));

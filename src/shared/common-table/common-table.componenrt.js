@@ -11,7 +11,13 @@ import Paper from "@material-ui/core/Paper";
 import { ColumnFilters } from "./column-filters";
 import { useStyles } from "./common-table.styles";
 
-export const CommonTable = ({headers, rows, columnData, onFilterExpand}) => {
+export const CommonTable = ({
+  headers,
+  rows,
+  columnData,
+  onFilterExpand,
+  loading
+}) => {
   const classes = useStyles();
 
   return (
@@ -28,22 +34,24 @@ export const CommonTable = ({headers, rows, columnData, onFilterExpand}) => {
               >
                 <div className={classes.cellContainer}>
                   <div>{header}</div>
-                  {header === "name" && 
-                    <div>
-                      <ColumnFilters
-                        columnName={header}
-                        items={columnData}
-                        onFilterExpand={onFilterExpand}
-                      />
-                    </div>
-                  }
+                  <div>
+                    <ColumnFilters
+                      columnName={header}
+                      items={columnData}
+                      loading={loading}
+                      onFilterExpand={onFilterExpand}
+                    />
+                  </div>
                 </div>
               </TableCell>))}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <TableRow key={index}>
+            <TableRow 
+              key={index} 
+              className={classes.tableRow}
+            >
               {Object.keys(row).map(cell => (
                 <TableCell 
                   key={cell}
@@ -53,7 +61,7 @@ export const CommonTable = ({headers, rows, columnData, onFilterExpand}) => {
                     root: classes.root,
                   }}
                 >
-                  {row[cell]}
+                  <div>{row[cell]}</div>
                 </TableCell>
               ))}
             </TableRow>
@@ -67,6 +75,7 @@ export const CommonTable = ({headers, rows, columnData, onFilterExpand}) => {
 CommonTable.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.string),
   rows: PropTypes.arrayOf(PropTypes.object),
+  loading: PropTypes.bool,
   columnData: PropTypes.arrayOf(PropTypes.string),
   onFilterExpand: PropTypes.func
 }

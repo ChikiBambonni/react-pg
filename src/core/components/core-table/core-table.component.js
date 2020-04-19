@@ -17,7 +17,8 @@ export const CoreTable = props => {
   const [rows, setRows]             = useState([]);
   const [columnData, setColumnData] = useState([]);
   const [count, setCount]           = useState(0);
-  const [loading, setLoading]       = useState(true);
+  const [tLoading, setTLoading]     = useState(true);
+  const [fLoading, setFLoading]     = useState(false);
   const [error, setError]           = useState(null);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export const CoreTable = props => {
 
     useFetch(
       fetchEffect,
-      setLoading,
+      setTLoading,
       setError
     ).then(res => {
       if (res) {
@@ -40,7 +41,11 @@ export const CoreTable = props => {
   }, [props.page, props.pagesize]);
 
   const onFilterExpand = name => {
-    fetchTableColumn({[name]: 1})()
+    useFetch(
+      fetchTableColumn({[name]: 1}),
+      setFLoading,
+      setError
+    )
       .then(res => res.elements)
       .then(res => res.map(e => e[name]))
       .then(res => setColumnData(res));
@@ -51,13 +56,16 @@ export const CoreTable = props => {
       <ErrorMessage error={error}></ErrorMessage>
       <div className={classes.tableContainer}>
         <CommonSpinner
-          loading={loading}>
+          loading={tLoading}
+          size={16}
+        >
         </CommonSpinner>
         <div className="tableWrapper">
           <CommonTable
             headers={headers} 
             rows={rows}
             columnData={columnData}
+            loading={fLoading}
             onFilterExpand={onFilterExpand}
           >
           </CommonTable>

@@ -1,7 +1,5 @@
 export const spacing = 4;
 
-export const warning$1 = "#ff9e43";
-
 export const primaryColors = {
   light: "#30333e",
   main: "#171d30",

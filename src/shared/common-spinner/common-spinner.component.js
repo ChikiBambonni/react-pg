@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import GridLoader from "react-spinners/GridLoader";
 
-import { warning$1 } from '@styles/variables';
+import { warningColors } from '@styles/variables';
 import { useStyles } from './common-spinner.styles';
 
-export const CommonSpinner = ({ loading }) => {
+export const CommonSpinner = ({ loading, size }) => {
   const classes = useStyles();
 
   return (
@@ -16,13 +16,16 @@ export const CommonSpinner = ({ loading }) => {
       }}
     >
       <GridLoader
-        color={warning$1}
-        loading={loading}>
+        color={warningColors.main}
+        loading={loading}
+        size={size}
+      >
       </GridLoader>
     </div>
   );
 }
 
 CommonSpinner.propTypes = {
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  size: PropTypes.number
 }

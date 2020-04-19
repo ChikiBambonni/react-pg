@@ -11,6 +11,7 @@ import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
 
+import { CommonSpinner } from "@shared/common-spinner";
 import { useOutsideClick } from "@core/hooks";
 import { useStyles } from "./column-filter.styles";
 
@@ -24,6 +25,8 @@ export const ColumnFilters = props => {
   const filtersWrapperRef = useRef(null);
   useOutsideClick(filtersWrapperRef, () => {
     setIsExpanded(false);
+    setSelectAllChecked(false);
+    setCheckedItems([]);
   });
 
   const handleItemChange = item => {
@@ -93,11 +96,15 @@ export const ColumnFilters = props => {
               </FormControl>
             </div>
             <div className={classes.selectContainer}>
-              <FormControl component="fieldset" className={classes.formControl}>
+              <CommonSpinner 
+                loading={props.loading}
+                size={8}
+              />
+              {!props.loading && <FormControl component="fieldset" className={classes.formControl}>
                 <FormGroup>
-                  {props.items.map(item => (
+                  {props.items.map((item, index) => (
                     <FormControlLabel
-                      key={item}
+                      key={index}
                       control={
                         <Checkbox
                           checked={checkedItems.includes(item)}
@@ -109,7 +116,7 @@ export const ColumnFilters = props => {
                     />
                   ))}
                 </FormGroup>
-              </FormControl>
+              </FormControl>}
             </div>
           </Paper>
         </div>
@@ -121,5 +128,6 @@ export const ColumnFilters = props => {
 ColumnFilters.propTypes = {
   columnName: PropTypes.string.isRequired,
   items: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
   onFilterExpand: PropTypes.func
 };

@@ -10,7 +10,14 @@ export const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     borderBottom: `1px solid ${theme.palette.text.disabled}`,
   },
+  tableRow: {
+    "&:hover": {
+      background: "rgba(0, 0, 0, 0.15)",
+      cursor: "pointer"
+    },
+  },
   cellContainer: {
+    position: "relative",
     display: "flex",
     justifyContent: "space-between"
   }
