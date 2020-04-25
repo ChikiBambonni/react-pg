@@ -1,5 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from 'prop-types';
+import {List} from 'react-virtualized';
 import Paper from "@material-ui/core/Paper";
 import FilterListIcon from '@material-ui/icons/FilterList';
 import TextField from '@material-ui/core/TextField';
@@ -12,8 +13,10 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
 
 import { CommonSpinner } from "@shared/common-spinner";
+import { ErrorMessage } from "@shared/error-message";
 import { useOutsideClick } from "@core/hooks";
 import { useStyles } from "./column-filter.styles";
+import { FilterItem } from "./filter-item";
 
 export const ColumnFilters = props => {
   const classes = useStyles();
@@ -22,12 +25,28 @@ export const ColumnFilters = props => {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [checkedItems, setCheckedItems]         = useState([]);
   
+  useEffect(() => {
+    setCheckedItems([]);
+    setSelectAllChecked(false);
+  }, [props.items])
+
   const filtersWrapperRef = useRef(null);
   useOutsideClick(filtersWrapperRef, () => {
     setIsExpanded(false);
     setSelectAllChecked(false);
     setCheckedItems([]);
   });
+
+  const rowRenderer = rendererProps => {
+    return (
+      <FilterItem 
+        items={props.items} 
+        checkedItems={checkedItems}
+        onChange={handleItemChange}
+        { ...rendererProps }
+      />
+    );
+  };
 
   const handleItemChange = item => {
     const items = checkedItems.includes(item) ?
@@ -40,6 +59,11 @@ export const ColumnFilters = props => {
   const handleSelectAllChange = () => {
     setCheckedItems(!selectAllChecked ? props.items : []);
     setSelectAllChecked(!selectAllChecked);
+  };
+
+  const handleSearchInput = $event => {
+    const value = $event.target.value;
+    props.onFilterSearch(props.columnName, value);
   };
 
   return (
@@ -73,6 +97,7 @@ export const ColumnFilters = props => {
                     </InputAdornment>
                   )
                 }}
+                onChange={$event => handleSearchInput($event)}
               />
             </div>
             <div className={classes.selectAllContainer}>
@@ -96,27 +121,27 @@ export const ColumnFilters = props => {
               </FormControl>
             </div>
             <div className={classes.selectContainer}>
+              <ErrorMessage error={props.error}></ErrorMessage>
               <CommonSpinner 
                 loading={props.loading}
                 size={8}
               />
-              {!props.loading && <FormControl component="fieldset" className={classes.formControl}>
-                <FormGroup>
-                  {props.items.map((item, index) => (
-                    <FormControlLabel
-                      key={index}
-                      control={
-                        <Checkbox
-                          checked={checkedItems.includes(item)}
-                          onChange={() => handleItemChange(item)}
-                          name={item}
-                        />
-                      }
-                      label={item}
+              {!props.loading && 
+                <FormControl 
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormGroup>
+                    <List
+                      className={classes.virtualizedList}
+                      width={220}
+                      height={220}
+                      rowCount={props.items.length}
+                      rowHeight={40}
+                      rowRenderer={rowRenderer} // TODO: define getter here
                     />
-                  ))}
-                </FormGroup>
-              </FormControl>}
+                  </FormGroup>
+                </FormControl>}
             </div>
           </Paper>
         </div>
@@ -127,7 +152,12 @@ export const ColumnFilters = props => {
 
 ColumnFilters.propTypes = {
   columnName: PropTypes.string.isRequired,
-  items: PropTypes.string.isRequired,
+  items: PropTypes.any.isRequired, // TODO: check type here
   loading: PropTypes.bool,
-  onFilterExpand: PropTypes.func
+  error: PropTypes.exact({
+    errorCode: PropTypes.number,
+    errorMessage: PropTypes.string
+  }),
+  onFilterExpand: PropTypes.func,
+  onFilterSearch: PropTypes.func
 };

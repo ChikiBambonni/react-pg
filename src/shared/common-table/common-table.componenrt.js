@@ -16,7 +16,9 @@ export const CommonTable = ({
   rows,
   columnData,
   onFilterExpand,
-  loading
+  onFilterSearch,
+  loading,
+  error
 }) => {
   const classes = useStyles();
 
@@ -39,7 +41,9 @@ export const CommonTable = ({
                       columnName={header}
                       items={columnData}
                       loading={loading}
+                      error={error}
                       onFilterExpand={onFilterExpand}
+                      onFilterSearch={onFilterSearch}
                     />
                   </div>
                 </div>
@@ -76,6 +80,11 @@ CommonTable.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.string),
   rows: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool,
+  error: PropTypes.exact({
+    errorCode: PropTypes.number,
+    errorMessage: PropTypes.string
+  }),
   columnData: PropTypes.arrayOf(PropTypes.string),
-  onFilterExpand: PropTypes.func
+  onFilterExpand: PropTypes.func,
+  onFilterSearch: PropTypes.func
 }

@@ -9,7 +9,7 @@ export const useFetch = async (fetchEffect, setLoading, setError) => {
     });
   } catch (e) {
     setError({
-      errorCode: e.response.status,
+      errorCode: e.message.status,
       errorMessage: e.message
     });
     setLoading(false);

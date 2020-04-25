@@ -7,7 +7,7 @@ import { CommonPaginator } from '@shared/common-paginator';
 import { ErrorMessage } from '@shared/error-message';
 import { CommonSpinner } from '@shared/common-spinner';
 import { useFetch } from '@core/hooks';
-import { fetchTableData, fetchTableColumn } from './core-table.data';
+import { fetchTableData } from './core-table.data';
 import { useStyles } from './core-table.style';
 
 export const CoreTable = props => {
@@ -19,7 +19,8 @@ export const CoreTable = props => {
   const [count, setCount]           = useState(0);
   const [tLoading, setTLoading]     = useState(true);
   const [fLoading, setFLoading]     = useState(false);
-  const [error, setError]           = useState(null);
+  const [tError, setTError]         = useState(null);
+  const [fError, setFError]         = useState(null);
 
   useEffect(() => {
     const fetchEffect = fetchTableData(
@@ -30,30 +31,43 @@ export const CoreTable = props => {
     useFetch(
       fetchEffect,
       setTLoading,
-      setError
-    ).then(res => {
-      if (res) {
+      setTError
+    )
+      .then(res => {
         setHeaders(Object.keys(res.elements[0] || []));
         setRows(res.elements);
         setCount(res.totalElements);
-      }
-    });
+      })
+      .catch(e => e);
   }, [props.page, props.pagesize]);
 
   const onFilterExpand = name => {
     useFetch(
-      fetchTableColumn({[name]: 1}),
+      fetchTableData(1, 1000, {[name]: 1}),
       setFLoading,
-      setError
+      setFError
     )
       .then(res => res.elements)
       .then(res => res.map(e => e[name]))
-      .then(res => setColumnData(res));
+      .then(res => setColumnData(res))
+      .catch(e => e);
+  };
+
+  const onFilterSearch = (column, search) => {
+    useFetch(
+      fetchTableData(1, 1000, {[column]: 1}, {"$regex": {[column]: search}}),
+      setFLoading,
+      setFError
+    )
+      .then(res => res.elements)
+      .then(res => res.map(e => e[column]))
+      .then(res => setColumnData(res))
+      .catch(e => e);
   };
 
   return (
     <Paper className={classes.root}>
-      <ErrorMessage error={error}></ErrorMessage>
+      <ErrorMessage error={tError}></ErrorMessage>
       <div className={classes.tableContainer}>
         <CommonSpinner
           loading={tLoading}
@@ -66,7 +80,9 @@ export const CoreTable = props => {
             rows={rows}
             columnData={columnData}
             loading={fLoading}
+            error={fError}
             onFilterExpand={onFilterExpand}
+            onFilterSearch={onFilterSearch}
           >
           </CommonTable>
         </div>

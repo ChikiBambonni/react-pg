@@ -41,13 +41,15 @@ export const useStyles = makeStyles(theme => ({
   },
   selectContainer: {
     position: "relative",
-    height: 220,
-    overflow: "auto",
+    minHeight: 220,
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
     paddingBottom: theme.spacing(4),
     marginLeft: theme.spacing(-4),
     marginRight: theme.spacing(-4),
     marginBottom: theme.spacing(-4),
+  },
+  virtualizedList: {
+    outline: "none"
   }
 }));

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const fetchTableData = (page, pagesize, keys) => {
+export const fetchTableData = (page, pagesize, keys, filter) => {
   return () => {
     const endpoint = 'api/users';
   
@@ -8,20 +8,9 @@ export const fetchTableData = (page, pagesize, keys) => {
       params: {
         pagesize,
         page,
-        keys
+        keys,
+        filter
       }
     }).then(res => res.data);
   }
 };
-
-export const fetchTableColumn = keys => {
-  return () => {
-    const endpoint = 'api/users';
-  
-    return axios.get(endpoint, {
-      params: {
-        keys
-      }
-    }).then(res => res.data);
-  };
-}
