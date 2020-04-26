@@ -4,7 +4,8 @@ export const useStyles = makeStyles(theme => ({
   table: {
     height: "100%",
     boxShadow: "none",
-    backgroundColor: "inherit"
+    backgroundColor: "inherit",
+    overflow: "inherit"
   },
   root: {
     color: theme.palette.text.secondary,

@@ -12,9 +12,10 @@ import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
 
+import { fetchTableData } from "@core/components/core-table";
 import { CommonSpinner } from "@shared/common-spinner";
 import { ErrorMessage } from "@shared/error-message";
-import { useOutsideClick } from "@core/hooks";
+import { useOutsideClick, useFetch } from "@core/hooks";
 import { useStyles } from "./column-filter.styles";
 import { FilterItem } from "./filter-item";
 
@@ -23,24 +24,41 @@ export const ColumnFilters = props => {
 
   const [isExpanded, setIsExpanded]             = useState(false);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const [items, setItems]                       = useState([]);
   const [checkedItems, setCheckedItems]         = useState([]);
+  const [loading, setLoading]                   = useState(true);
+  const [error, setError]                       = useState(null);
   
   useEffect(() => {
-    setCheckedItems([]);
-    setSelectAllChecked(false);
-  }, [props.items])
+    useFetch(
+      fetchTableData(
+        1,
+        1000, // TODO: define paging here
+        {[props.columnName]: 1},
+        {}
+      ),
+      setLoading,
+      setError
+    )
+      .then(res => res.elements)
+      .then(res => res.map(e => e[props.columnName]))
+      .then(res => {
+        setItems(res);
+        setCheckedItems(res);
+        setSelectAllChecked(true);
+      })
+      .catch(e => e);
+  }, []);
 
   const filtersWrapperRef = useRef(null);
   useOutsideClick(filtersWrapperRef, () => {
     setIsExpanded(false);
-    setSelectAllChecked(false);
-    setCheckedItems([]);
   });
 
   const rowRenderer = rendererProps => {
     return (
       <FilterItem 
-        items={props.items} 
+        items={items} 
         checkedItems={checkedItems}
         onChange={handleItemChange}
         { ...rendererProps }
@@ -49,15 +67,16 @@ export const ColumnFilters = props => {
   };
 
   const handleItemChange = item => {
-    const items = checkedItems.includes(item) ?
+    const data = checkedItems.includes(item) ?
       checkedItems.filter(i => i !== item) :
       [...checkedItems, item];
-    setCheckedItems(items);
-    setSelectAllChecked(items.length === props.items.length);
+    setCheckedItems(data);
+    setSelectAllChecked(data.length === items.length);
+    props.onFilterSelect(props.columnName, data);
   };
 
   const handleSelectAllChange = () => {
-    setCheckedItems(!selectAllChecked ? props.items : []);
+    setCheckedItems(!selectAllChecked ? items : []);
     setSelectAllChecked(!selectAllChecked);
   };
 
@@ -73,7 +92,6 @@ export const ColumnFilters = props => {
           className="icon"
           onClick={() => { 
             setIsExpanded(!isExpanded);
-            if (!isExpanded) props.onFilterExpand(props.columnName);
           }}
         />
       </div>
@@ -121,12 +139,12 @@ export const ColumnFilters = props => {
               </FormControl>
             </div>
             <div className={classes.selectContainer}>
-              <ErrorMessage error={props.error}></ErrorMessage>
+              <ErrorMessage error={error}></ErrorMessage>
               <CommonSpinner 
-                loading={props.loading}
+                loading={loading}
                 size={8}
               />
-              {!props.loading && 
+              {!loading && 
                 <FormControl 
                   component="fieldset"
                   className={classes.formControl}
@@ -136,7 +154,7 @@ export const ColumnFilters = props => {
                       className={classes.virtualizedList}
                       width={220}
                       height={220}
-                      rowCount={props.items.length}
+                      rowCount={items.length}
                       rowHeight={40}
                       rowRenderer={rowRenderer} // TODO: define getter here
                     />
@@ -153,11 +171,6 @@ export const ColumnFilters = props => {
 ColumnFilters.propTypes = {
   columnName: PropTypes.string.isRequired,
   items: PropTypes.any.isRequired, // TODO: check type here
-  loading: PropTypes.bool,
-  error: PropTypes.exact({
-    errorCode: PropTypes.number,
-    errorMessage: PropTypes.string
-  }),
-  onFilterExpand: PropTypes.func,
-  onFilterSearch: PropTypes.func
+  onFilterSearch: PropTypes.func,
+  onFilterSelect: PropTypes.func
 };

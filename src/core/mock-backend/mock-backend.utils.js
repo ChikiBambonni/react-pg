@@ -7,6 +7,7 @@ import {
   last,
   filter,
   map,
+  includes,
   keys as rkeys,
   dropLast,
   compose,
@@ -29,9 +30,9 @@ export const getConfigUrls = config => {
 
 export const createTableData = ({elements, pagesize, page, keys, filter}) => {
   const data = compose(
-    curry(applyFilter)(filter),
+    curry(applyPaging)(page, pagesize),
     curry(applyKeys)(keys),
-    curry(applyPaging)(page, pagesize)
+    curry(applyFilter)(filter)
   )(elements);
 
   return {
@@ -72,9 +73,12 @@ export const applyPaging = (page, pagesize, elements) => {
 export const applyFilter = (f, elements) => {
   if (isEmpty(f)) return elements;
   
-  const parseFilter = key => {
+  const parseFilter = (filterKeys, data) => {
+    const key = last(filterKeys);
+    if (!key) return data;
+
     switch (key) {
-    case "$regex": { // TODO: add $or filter 
+    case "$regex": {
       const $regex = f[key];
       const regexKeys = rkeys($regex);
 
@@ -87,15 +91,30 @@ export const applyFilter = (f, elements) => {
         );
       };
       
-      return parseKeys(regexKeys, elements);
+      return parseFilter(dropLast(filterKeys), parseKeys(regexKeys, data));
+    }
+    case "$or": {
+      const $or = f[key];
+      const orKeys = rkeys($or);
+
+      const parseKeys = (keys, items) => {
+        const k = last(keys);
+        if (!k) return items;
+        return parseKeys(
+          dropLast(keys), 
+          filter(item => includes(item[k], $or[k]), items)
+        );
+      };
+
+      return parseFilter(dropLast(filterKeys), parseKeys(orKeys, data));
     }
     default: {
-      return elements;
+      return data;
     }
     }
   };
   
-  return parseFilter("$regex");
+  return parseFilter(rkeys(f), elements);
 };
 
 export const applyKeys = (keys, elements) => {

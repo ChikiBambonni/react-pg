@@ -9,6 +9,8 @@ export const useStyles = makeStyles(theme => ({
     overflowY: "auto"
   },
   nestedListSubheader: {
+    position: "relative",
+    zIndex: 0,
     borderBottom: `1px solid ${theme.palette.text.disabled}`,
   },
   nested: {

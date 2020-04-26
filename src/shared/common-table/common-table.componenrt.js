@@ -15,10 +15,8 @@ export const CommonTable = ({
   headers,
   rows,
   columnData,
-  onFilterExpand,
   onFilterSearch,
-  loading,
-  error
+  onFilterSelect,
 }) => {
   const classes = useStyles();
 
@@ -40,10 +38,8 @@ export const CommonTable = ({
                     <ColumnFilters
                       columnName={header}
                       items={columnData}
-                      loading={loading}
-                      error={error}
-                      onFilterExpand={onFilterExpand}
                       onFilterSearch={onFilterSearch}
+                      onFilterSelect={onFilterSelect}
                     />
                   </div>
                 </div>
@@ -79,12 +75,7 @@ export const CommonTable = ({
 CommonTable.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.string),
   rows: PropTypes.arrayOf(PropTypes.object),
-  loading: PropTypes.bool,
-  error: PropTypes.exact({
-    errorCode: PropTypes.number,
-    errorMessage: PropTypes.string
-  }),
   columnData: PropTypes.arrayOf(PropTypes.string),
-  onFilterExpand: PropTypes.func,
-  onFilterSearch: PropTypes.func
+  onFilterSearch: PropTypes.func,
+  onFilterSelect: PropTypes.func
 }

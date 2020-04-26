@@ -23,13 +23,11 @@ export const CoreTable = props => {
   const [fError, setFError]         = useState(null);
 
   useEffect(() => {
-    const fetchEffect = fetchTableData(
-      props.page + 1, 
-      props.pagesize
-    );
-
     useFetch(
-      fetchEffect,
+      fetchTableData(
+        props.page + 1, 
+        props.pagesize
+      ),
       setTLoading,
       setTError
     )
@@ -41,27 +39,39 @@ export const CoreTable = props => {
       .catch(e => e);
   }, [props.page, props.pagesize]);
 
-  const onFilterExpand = name => {
-    useFetch(
-      fetchTableData(1, 1000, {[name]: 1}),
-      setFLoading,
-      setFError
-    )
-      .then(res => res.elements)
-      .then(res => res.map(e => e[name]))
-      .then(res => setColumnData(res))
-      .catch(e => e);
-  };
-
   const onFilterSearch = (column, search) => {
     useFetch(
-      fetchTableData(1, 1000, {[column]: 1}, {"$regex": {[column]: search}}),
+      fetchTableData(
+        1,
+        1000,
+        {},
+        {"$regex": {[column]: search}}
+      ),
       setFLoading,
       setFError
     )
       .then(res => res.elements)
       .then(res => res.map(e => e[column]))
       .then(res => setColumnData(res))
+      .catch(e => e);
+  };
+
+  const onFilterSelect = (column, items) => { // TODO: handle http query size overflow
+    useFetch(
+      fetchTableData(
+        props.page + 1, 
+        props.pagesize,
+        {},
+        {"$or": {[column]: items}}
+      ),
+      setTLoading,
+      setTError
+    )
+      .then(res => {
+        setHeaders(Object.keys(res.elements[0] || []));
+        setRows(res.elements);
+        setCount(res.totalElements);
+      })
       .catch(e => e);
   };
 
@@ -81,8 +91,8 @@ export const CoreTable = props => {
             columnData={columnData}
             loading={fLoading}
             error={fError}
-            onFilterExpand={onFilterExpand}
             onFilterSearch={onFilterSearch}
+            onFilterSelect={onFilterSelect}
           >
           </CommonTable>
         </div>
