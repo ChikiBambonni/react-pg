@@ -61,10 +61,6 @@ export const CoreTable = props => {
       .catch(e => e);
   };
 
-  const onFilterSearch = value => {
-    console.log(value);
-  };
-
   return (
     <Paper className={classes.root}>
       <ErrorMessage error={error}></ErrorMessage>
@@ -79,7 +75,6 @@ export const CoreTable = props => {
             fetchEffect={fetchTableData}
             headers={headers} 
             rows={rows}
-            onFilterSearch={onFilterSearch}
             onFilterSelect={onFilterSelect}
           >
           </CommonTable>

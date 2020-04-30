@@ -15,7 +15,6 @@ export const CommonTable = ({
   fetchEffect,
   headers,
   rows,
-  onFilterSearch,
   onFilterSelect,
 }) => {
   const classes = useStyles();
@@ -38,7 +37,6 @@ export const CommonTable = ({
                     <ColumnFilters
                       fetchEffect={fetchEffect}
                       columnName={header}
-                      onFilterSearch={onFilterSearch}
                       onFilterSelect={onFilterSelect}
                     />
                   </div>
@@ -76,6 +74,5 @@ CommonTable.propTypes = {
   fetchEffect: PropTypes.func, 
   headers: PropTypes.arrayOf(PropTypes.string),
   rows: PropTypes.arrayOf(PropTypes.object),
-  onFilterSearch: PropTypes.func,
   onFilterSelect: PropTypes.func
 }

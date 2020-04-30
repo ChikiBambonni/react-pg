@@ -22,7 +22,6 @@ import { FilterItem } from "./filter-item";
 export const ColumnFilters = ({
   fetchEffect,
   columnName, 
-  onFilterSearch,
   onFilterSelect, 
 }) => {
   const classes = useStyles();
@@ -66,18 +65,6 @@ export const ColumnFilters = ({
     );
   };
 
-  const handleFilterSearch = (column, search) => {
-    useFetch(
-      fetchEffect(1, 1000, {}, { "$regex" : { [column]: search } }),
-      setLoading,
-      setError
-    )
-      .then(res => res.elements)
-      .then(res => res.map(e => e[column]))
-      .then(res => setItems(res))
-      .catch(e => e);
-  };
-
   const handleItemChange = item => {
     const data = checkedItems.includes(item) ?
       checkedItems.filter(i => i !== item) :
@@ -93,9 +80,16 @@ export const ColumnFilters = ({
   };
 
   const handleSearchInput = $event => {
-    const value = $event.target.value;
-    onFilterSearch(columnName, value);
-    handleFilterSearch(columnName, value);
+    const search = $event.target.value;
+    useFetch(
+      fetchEffect(1, 1000, {}, { "$regex" : { [columnName]: search } }),
+      setLoading,
+      setError
+    )
+      .then(res => res.elements)
+      .then(res => res.map(e => e[columnName]))
+      .then(res => setItems(res))
+      .catch(e => e);
   };
 
   return (
@@ -184,6 +178,5 @@ export const ColumnFilters = ({
 ColumnFilters.propTypes = {
   fetchEffect: PropTypes.func,
   columnName: PropTypes.string.isRequired,
-  onFilterSearch: PropTypes.func,
   onFilterSelect: PropTypes.func
 };
