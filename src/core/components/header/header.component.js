@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import {useStyles} from "./header.styles";
+import { useStyles } from "./header.styles";
 
 export const Header = () => {
   const classes = useStyles();
@@ -25,7 +25,7 @@ export const Header = () => {
         <Tabs
           onChange={handleChange}
           value={value}
-          classes={{indicator: classes.indicator}}>
+          classes={{ indicator: classes.indicator }}>
           {items.map(item => (
             <Tab
               key={item}

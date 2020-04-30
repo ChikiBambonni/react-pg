@@ -1,4 +1,4 @@
-import { createEmptyArray } from '@core/utils';
+import { createEmptyArray } from "@core/utils";
 
 export const generateCollections = n => {
   return createEmptyArray(n)

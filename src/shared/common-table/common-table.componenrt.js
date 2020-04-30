@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -12,6 +12,7 @@ import { ColumnFilters } from "./column-filters";
 import { useStyles } from "./common-table.styles";
 
 export const CommonTable = ({
+  fetchEffect,
   headers,
   rows,
   onFilterSearch,
@@ -35,6 +36,7 @@ export const CommonTable = ({
                   <div>{header}</div>
                   <div>
                     <ColumnFilters
+                      fetchEffect={fetchEffect}
                       columnName={header}
                       onFilterSearch={onFilterSearch}
                       onFilterSelect={onFilterSelect}
@@ -71,6 +73,7 @@ export const CommonTable = ({
 }
 
 CommonTable.propTypes = {
+  fetchEffect: PropTypes.func, 
   headers: PropTypes.arrayOf(PropTypes.string),
   rows: PropTypes.arrayOf(PropTypes.object),
   onFilterSearch: PropTypes.func,

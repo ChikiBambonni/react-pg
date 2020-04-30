@@ -1,4 +1,4 @@
-import {USERS_MOCK_DATA} from "./users.constants";
+import { USERS_MOCK_DATA } from "./users.constants";
 
 import {
   createTableData,

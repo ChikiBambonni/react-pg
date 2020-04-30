@@ -1,26 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes from 'prop-types';
-import {List} from 'react-virtualized';
+import PropTypes from "prop-types";
+import { List } from "react-virtualized";
 import Paper from "@material-ui/core/Paper";
-import FilterListIcon from '@material-ui/icons/FilterList';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import FilterListIcon from "@material-ui/icons/FilterList";
+import TextField from "@material-ui/core/TextField";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
-import {difference} from "ramda";
+import { difference } from "ramda";
 
-import { fetchTableData } from "@core/components/core-table";
 import { CommonSpinner } from "@shared/common-spinner";
 import { ErrorMessage } from "@shared/error-message";
 import { useOutsideClick, useFetch } from "@core/hooks";
 import { useStyles } from "./column-filter.styles";
 import { FilterItem } from "./filter-item";
 
-export const ColumnFilters = props => {
+export const ColumnFilters = ({
+  fetchEffect,
+  columnName, 
+  onFilterSearch,
+  onFilterSelect, 
+}) => {
   const classes = useStyles();
 
   const [isExpanded, setIsExpanded]             = useState(false);
@@ -32,17 +36,12 @@ export const ColumnFilters = props => {
   
   useEffect(() => {
     useFetch(
-      fetchTableData(
-        1,
-        1000, // TODO: define paging here
-        {[props.columnName]: 1},
-        {}
-      ),
+      fetchEffect(1, 1000, { [columnName]: 1 }, {}), // TODO: define paging here
       setLoading,
       setError
     )
       .then(res => res.elements)
-      .then(res => res.map(e => e[props.columnName]))
+      .then(res => res.map(e => e[columnName]))
       .then(res => {
         setItems(res);
         setCheckedItems(res);
@@ -67,22 +66,17 @@ export const ColumnFilters = props => {
     );
   };
 
-  // const handleFilterSearch = (column, search) => {
-  //   useFetch(
-  //     fetchTableData(
-  //       1,
-  //       1000,
-  //       {},
-  //       {"$regex": {[column]: search}}
-  //     ),
-  //     setFLoading,
-  //     setFError
-  //   )
-  //     .then(res => res.elements)
-  //     .then(res => res.map(e => e[column]))
-  //     .then(res => setColumnData(res))
-  //     .catch(e => e);
-  // };
+  const handleFilterSearch = (column, search) => {
+    useFetch(
+      fetchEffect(1, 1000, {}, { "$regex" : { [column]: search } }),
+      setLoading,
+      setError
+    )
+      .then(res => res.elements)
+      .then(res => res.map(e => e[column]))
+      .then(res => setItems(res))
+      .catch(e => e);
+  };
 
   const handleItemChange = item => {
     const data = checkedItems.includes(item) ?
@@ -90,7 +84,7 @@ export const ColumnFilters = props => {
       [...checkedItems, item];
     setCheckedItems(data);
     setSelectAllChecked(data.length === items.length);
-    props.onFilterSelect(props.columnName, difference(items, data));
+    onFilterSelect(columnName, difference(items, data));
   };
 
   const handleSelectAllChange = () => {
@@ -100,7 +94,8 @@ export const ColumnFilters = props => {
 
   const handleSearchInput = $event => {
     const value = $event.target.value;
-    props.onFilterSearch(props.columnName, value);
+    onFilterSearch(columnName, value);
+    handleFilterSearch(columnName, value);
   };
 
   return (
@@ -187,6 +182,7 @@ export const ColumnFilters = props => {
 };
 
 ColumnFilters.propTypes = {
+  fetchEffect: PropTypes.func,
   columnName: PropTypes.string.isRequired,
   onFilterSearch: PropTypes.func,
   onFilterSelect: PropTypes.func

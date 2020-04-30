@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-import { CoreTable } from '@core/components/core-table';
-import { Header } from '@core/components/header';
+import { CoreTable } from "@core/components/core-table";
+import { Header } from "@core/components/header";
 import { 
   UrlsConfig,
   getConfigUrls,
   createBackendAdapter
-} from '@core/mock-backend';
-import { NestedList } from '@shared/nested-list';
-import { useStyles } from './App.styles';
+} from "@core/mock-backend";
+import { NestedList } from "@shared/nested-list";
+import { useStyles } from "./App.styles";
 
 const App = () => {
   const adapter = createBackendAdapter();
@@ -24,7 +24,7 @@ const App = () => {
   const [error, setError]             = useState(null);
   
   useEffect(() => {
-    axios.get('api/collections', {})
+    axios.get("api/collections", {})
       .then(response => {
         return response.data.elements;
       })

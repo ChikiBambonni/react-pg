@@ -1,9 +1,9 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 import { useStyles } from "./error-message.styles";
 
-export const ErrorMessage = ({error}) => {
+export const ErrorMessage = ({ error }) => {
   const classes = useStyles();
 
   return (

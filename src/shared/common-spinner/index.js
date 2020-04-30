@@ -1,1 +1,1 @@
-export * from './common-spinner.component';
+export * from "./common-spinner.component";

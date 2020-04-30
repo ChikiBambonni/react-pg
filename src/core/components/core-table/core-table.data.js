@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const fetchTableData = (page, pagesize, keys, filter) => {
   return () => {
-    const endpoint = 'api/users';
+    const endpoint = "api/users";
   
     return axios.get(endpoint, {
       params: {

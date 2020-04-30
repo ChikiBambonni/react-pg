@@ -1,9 +1,9 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import UrlPattern from "url-pattern";
-import {always} from "ramda";
+import { always } from "ramda";
 
-import {defaultMockDelay} from "./mock-backend-config.constants";
+import { defaultMockDelay } from "./mock-backend-config.constants";
 
 export const createBackendAdapter = () => {
   const key = always("mock_data_service_1");
@@ -56,7 +56,7 @@ export const createBackendAdapter = () => {
 
             return [404, {}];
           });
-        })(new MockAdapter(axios, {"delayResponse": defaultMockDelay}));
+        })(new MockAdapter(axios, { "delayResponse": defaultMockDelay }));
       }
 
       return this;

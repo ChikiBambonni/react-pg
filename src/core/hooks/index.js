@@ -1,2 +1,2 @@
-export * from './dom-utils.hooks';
-export * from './fetch.hooks';
+export * from "./dom-utils.hooks";
+export * from "./fetch.hooks";

@@ -25,6 +25,9 @@
     "one-var": ["error", "never"],
     "indent": ["error", 2],
     "prefer-arrow-callback": "error",
-    "arrow-parens": ["error", "as-needed"]
+    "arrow-parens": ["error", "as-needed"],
+    "object-curly-spacing": ["error", "always"],
+    "brace-style": "error",
+    "quotes": ["error", "double"]
   }
 }

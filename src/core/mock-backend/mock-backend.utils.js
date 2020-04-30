@@ -1,4 +1,4 @@
-import {Maybe} from "ramda-fantasy";
+import { Maybe } from "ramda-fantasy";
 import {
   path,
   isEmpty,
@@ -14,7 +14,7 @@ import {
   curry
 } from "ramda";
 
-import {NaNtoNull} from "@core/utils";
+import { NaNtoNull } from "@core/utils";
 
 export const getConfigUrls = config => {
   const map = Object.keys(config);
@@ -28,7 +28,7 @@ export const getConfigUrls = config => {
   return urls;
 };
 
-export const createTableData = ({elements, pagesize, page, keys, filter}) => {
+export const createTableData = ({ elements, pagesize, page, keys, filter }) => {
   const data = compose(
     curry(applyPaging)(page, pagesize),
     curry(applyKeys)(keys),

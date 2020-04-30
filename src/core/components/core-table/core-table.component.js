@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
-import { omit, merge } from 'ramda';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import Paper from "@material-ui/core/Paper";
+import { omit, merge } from "ramda";
 
-import { CommonTable } from '@shared/common-table';
-import { CommonPaginator } from '@shared/common-paginator';
-import { ErrorMessage } from '@shared/error-message';
-import { CommonSpinner } from '@shared/common-spinner';
-import { useFetch } from '@core/hooks';
-import { fetchTableData } from './core-table.data';
-import { useStyles } from './core-table.style';
+import { CommonTable } from "@shared/common-table";
+import { CommonPaginator } from "@shared/common-paginator";
+import { ErrorMessage } from "@shared/error-message";
+import { CommonSpinner } from "@shared/common-spinner";
+import { useFetch } from "@core/hooks";
+import { fetchTableData } from "./core-table.data";
+import { useStyles } from "./core-table.style";
 
 export const CoreTable = props => {
   const classes = useStyles();
@@ -41,14 +41,14 @@ export const CoreTable = props => {
   const onFilterSelect = (column, items) => {
     const filter = items.length === 0 ?
       omit([column], notFilter) : 
-      merge(notFilter, {[column]: items});
+      merge(notFilter, { [column]: items });
     setNotFilter(filter);
     useFetch(
       fetchTableData(
         props.page + 1, 
         props.pagesize,
         {},
-        {"$not": filter}
+        { "$not": filter }
       ),
       setLoading,
       setError
@@ -76,6 +76,7 @@ export const CoreTable = props => {
         </CommonSpinner>
         <div className="tableWrapper">
           <CommonTable
+            fetchEffect={fetchTableData}
             headers={headers} 
             rows={rows}
             onFilterSearch={onFilterSearch}

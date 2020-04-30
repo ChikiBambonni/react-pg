@@ -1,8 +1,8 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import TablePagination from "@material-ui/core/TablePagination";
 
-import {useStyles} from './common-paginator.styles';
+import { useStyles } from "./common-paginator.styles";
 
 export const CommonPaginator = ({
   pagesizeOptions,

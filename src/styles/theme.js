@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';  
+import { createMuiTheme } from "@material-ui/core/styles";  
 
 import { 
   spacing,
@@ -9,7 +9,7 @@ import {
   infoColors,
   successColors,
   textColors
-} from './variables';
+} from "./variables";
 
 export const theme = createMuiTheme({
   spacing,
