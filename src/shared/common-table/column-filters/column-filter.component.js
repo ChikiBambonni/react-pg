@@ -11,6 +11,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import SearchIcon from "@material-ui/icons/Search";
+import {difference} from "ramda";
 
 import { fetchTableData } from "@core/components/core-table";
 import { CommonSpinner } from "@shared/common-spinner";
@@ -66,13 +67,30 @@ export const ColumnFilters = props => {
     );
   };
 
+  // const handleFilterSearch = (column, search) => {
+  //   useFetch(
+  //     fetchTableData(
+  //       1,
+  //       1000,
+  //       {},
+  //       {"$regex": {[column]: search}}
+  //     ),
+  //     setFLoading,
+  //     setFError
+  //   )
+  //     .then(res => res.elements)
+  //     .then(res => res.map(e => e[column]))
+  //     .then(res => setColumnData(res))
+  //     .catch(e => e);
+  // };
+
   const handleItemChange = item => {
     const data = checkedItems.includes(item) ?
       checkedItems.filter(i => i !== item) :
       [...checkedItems, item];
     setCheckedItems(data);
     setSelectAllChecked(data.length === items.length);
-    props.onFilterSelect(props.columnName, data);
+    props.onFilterSelect(props.columnName, difference(items, data));
   };
 
   const handleSelectAllChange = () => {
@@ -170,7 +188,6 @@ export const ColumnFilters = props => {
 
 ColumnFilters.propTypes = {
   columnName: PropTypes.string.isRequired,
-  items: PropTypes.any.isRequired, // TODO: check type here
   onFilterSearch: PropTypes.func,
   onFilterSelect: PropTypes.func
 };

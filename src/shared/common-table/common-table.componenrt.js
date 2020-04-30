@@ -14,7 +14,6 @@ import { useStyles } from "./common-table.styles";
 export const CommonTable = ({
   headers,
   rows,
-  columnData,
   onFilterSearch,
   onFilterSelect,
 }) => {
@@ -37,7 +36,6 @@ export const CommonTable = ({
                   <div>
                     <ColumnFilters
                       columnName={header}
-                      items={columnData}
                       onFilterSearch={onFilterSearch}
                       onFilterSelect={onFilterSelect}
                     />
@@ -75,7 +73,6 @@ export const CommonTable = ({
 CommonTable.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.string),
   rows: PropTypes.arrayOf(PropTypes.object),
-  columnData: PropTypes.arrayOf(PropTypes.string),
   onFilterSearch: PropTypes.func,
   onFilterSelect: PropTypes.func
 }

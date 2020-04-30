@@ -86,27 +86,27 @@ export const applyFilter = (f, elements) => {
         const k = last(keys);
         if (!k) return items;
         return parseKeys(
-          dropLast(keys), 
+          dropLast(1, keys), 
           filter(item => item[k].match($regex[k]), items)
         );
       };
       
       return parseFilter(dropLast(filterKeys), parseKeys(regexKeys, data));
     }
-    case "$or": {
-      const $or = f[key];
-      const orKeys = rkeys($or);
+    case "$not": {
+      const $not = f[key];
+      const notKeys = rkeys($not);
 
       const parseKeys = (keys, items) => {
         const k = last(keys);
         if (!k) return items;
         return parseKeys(
-          dropLast(keys), 
-          filter(item => includes(item[k], $or[k]), items)
+          dropLast(1, keys), 
+          filter(item => !includes(item[k], $not[k]), items)
         );
       };
 
-      return parseFilter(dropLast(filterKeys), parseKeys(orKeys, data));
+      return parseFilter(dropLast(filterKeys), parseKeys(notKeys, data));
     }
     default: {
       return data;

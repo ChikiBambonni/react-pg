@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
+import { omit, merge } from 'ramda';
 
 import { CommonTable } from '@shared/common-table';
 import { CommonPaginator } from '@shared/common-paginator';
@@ -15,12 +16,10 @@ export const CoreTable = props => {
 
   const [headers, setHeaders]       = useState([]);
   const [rows, setRows]             = useState([]);
-  const [columnData, setColumnData] = useState([]);
   const [count, setCount]           = useState(0);
-  const [tLoading, setTLoading]     = useState(true);
-  const [fLoading, setFLoading]     = useState(false);
-  const [tError, setTError]         = useState(null);
-  const [fError, setFError]         = useState(null);
+  const [notFilter, setNotFilter]   = useState({});
+  const [loading, setLoading]       = useState(true);
+  const [error, setError]           = useState(null);
 
   useEffect(() => {
     useFetch(
@@ -28,8 +27,8 @@ export const CoreTable = props => {
         props.page + 1, 
         props.pagesize
       ),
-      setTLoading,
-      setTError
+      setLoading,
+      setError
     )
       .then(res => {
         setHeaders(Object.keys(res.elements[0] || []));
@@ -39,33 +38,20 @@ export const CoreTable = props => {
       .catch(e => e);
   }, [props.page, props.pagesize]);
 
-  const onFilterSearch = (column, search) => {
-    useFetch(
-      fetchTableData(
-        1,
-        1000,
-        {},
-        {"$regex": {[column]: search}}
-      ),
-      setFLoading,
-      setFError
-    )
-      .then(res => res.elements)
-      .then(res => res.map(e => e[column]))
-      .then(res => setColumnData(res))
-      .catch(e => e);
-  };
-
-  const onFilterSelect = (column, items) => { // TODO: handle http query size overflow
+  const onFilterSelect = (column, items) => {
+    const filter = items.length === 0 ?
+      omit([column], notFilter) : 
+      merge(notFilter, {[column]: items});
+    setNotFilter(filter);
     useFetch(
       fetchTableData(
         props.page + 1, 
         props.pagesize,
         {},
-        {"$or": {[column]: items}}
+        {"$not": filter}
       ),
-      setTLoading,
-      setTError
+      setLoading,
+      setError
     )
       .then(res => {
         setHeaders(Object.keys(res.elements[0] || []));
@@ -75,12 +61,16 @@ export const CoreTable = props => {
       .catch(e => e);
   };
 
+  const onFilterSearch = value => {
+    console.log(value);
+  };
+
   return (
     <Paper className={classes.root}>
-      <ErrorMessage error={tError}></ErrorMessage>
+      <ErrorMessage error={error}></ErrorMessage>
       <div className={classes.tableContainer}>
         <CommonSpinner
-          loading={tLoading}
+          loading={loading}
           size={16}
         >
         </CommonSpinner>
@@ -88,9 +78,6 @@ export const CoreTable = props => {
           <CommonTable
             headers={headers} 
             rows={rows}
-            columnData={columnData}
-            loading={fLoading}
-            error={fError}
             onFilterSearch={onFilterSearch}
             onFilterSelect={onFilterSelect}
           >
