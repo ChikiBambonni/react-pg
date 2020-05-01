@@ -21,7 +21,12 @@ export const CommonTable = ({
 
   return (
     <TableContainer className={classes.table} component={Paper}>
-      <Table aria-label="simple table">
+      <Table
+        style={{
+          borderCollapse: "separate"
+        }}
+        aria-label="simple table"
+      >
         <TableHead>
           <TableRow>
             {headers.map(header => (
@@ -30,6 +35,7 @@ export const CommonTable = ({
                 classes={{
                   root: classes.root,
                 }}
+                className={classes.sticky}
               >
                 <div className={classes.cellContainer}>
                   <div>{header}</div>

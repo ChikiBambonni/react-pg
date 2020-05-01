@@ -5,11 +5,16 @@ export const useStyles = makeStyles(theme => ({
     height: "100%",
     boxShadow: "none",
     backgroundColor: "inherit",
-    overflow: "inherit"
+    overflow: "auto",
   },
   root: {
     color: theme.palette.text.secondary,
     borderBottom: `1px solid ${theme.palette.text.disabled}`,
+  },
+  sticky: {
+    position: "sticky",
+    top: 0,
+    backgroundColor: theme.palette.secondary.main
   },
   tableRow: {
     "&:hover": {
