@@ -73,40 +73,39 @@ export const applyPaging = (page, pagesize, elements) => {
 export const applyFilter = (f, elements) => {
   if (isEmpty(f)) return elements;
   
+  const parseKeys = (keys, items, fn) => {
+    const k = last(keys);
+    if (!k) return items;
+    return parseKeys(
+      dropLast(1, keys), 
+      filter(fn(k), items)
+    );
+  }
+
   const parseFilter = (filterKeys, data) => {
     const key = last(filterKeys);
     if (!key) return data;
 
     switch (key) {
-    case "$regex": {
-      const $regex = f[key];
-      const regexKeys = rkeys($regex);
-
-      const parseKeys = (keys, items) => {
-        const k = last(keys);
-        if (!k) return items;
-        return parseKeys(
-          dropLast(1, keys), 
-          filter(item => item[k].match($regex[k]), items)
-        );
-      };
-      
-      return parseFilter(dropLast(filterKeys), parseKeys(regexKeys, data));
+    case "$regex": {      
+      return parseFilter(
+        dropLast(filterKeys), 
+        parseKeys(
+          rkeys(f[key]), 
+          data, 
+          k => item => item[k].match(f[key][k])
+        )
+      );
     }
     case "$not": {
-      const $not = f[key];
-      const notKeys = rkeys($not);
-
-      const parseKeys = (keys, items) => {
-        const k = last(keys);
-        if (!k) return items;
-        return parseKeys(
-          dropLast(1, keys), 
-          filter(item => !includes(item[k], $not[k]), items)
-        );
-      };
-
-      return parseFilter(dropLast(filterKeys), parseKeys(notKeys, data));
+      return parseFilter(
+        dropLast(filterKeys),
+        parseKeys(
+          rkeys(f[key]),
+          data,
+          k => item => !includes(item[k], f[key][k])
+        )
+      );
     }
     default: {
       return data;
