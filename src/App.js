@@ -12,16 +12,19 @@ import { NestedList } from "@shared/nested-list";
 import { useStyles } from "./App.styles";
 
 const App = () => {
+  const classes = useStyles();
+
   const adapter = createBackendAdapter();
   adapter()
     .initConfig(getConfigUrls(UrlsConfig))
     .initAdapter()
     .initGlobalMethods();
   
-  const [page, setPage]               = useState(0);
-  const [pagesize, setPagesize]       = useState(10);
-  const [items, setItems]             = useState([]);
-  const [error, setError]             = useState(null);
+  const [dataPath, setDataPath] = useState("api/database1/collection1");
+  const [page, setPage]         = useState(0);
+  const [pagesize, setPagesize] = useState(10);
+  const [items, setItems]       = useState([]);
+  const [error, setError]       = useState(null);
   
   useEffect(() => {
     axios.get("api/collections", {})
@@ -48,7 +51,9 @@ const App = () => {
     setPage(0);
   }
 
-  const classes = useStyles();
+  const onItemClick = item => {
+    setDataPath(`api/${item.database}/${item.collection}`);
+  };
 
   return (
     <div className={classes.app}>
@@ -58,9 +63,11 @@ const App = () => {
       <div className={classes.uiContainer}>
         <NestedList 
           items={items}
+          onItemClick={onItemClick}
           error={error}
         />
         <CoreTable
+          dataPath={dataPath}
           pagesizeOptions={pagesizeOptions}
           pagesize={pagesize}
           page={page}

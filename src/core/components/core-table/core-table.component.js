@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Paper from "@material-ui/core/Paper";
-import { omit, merge } from "ramda";
+import { omit, merge, curry } from "ramda";
 
 import { CommonTable } from "@shared/common-table";
 import { CommonPaginator } from "@shared/common-paginator";
@@ -11,7 +11,14 @@ import { useFetch } from "@core/hooks";
 import { fetchTableData } from "./core-table.data";
 import { useStyles } from "./core-table.style";
 
-export const CoreTable = props => {
+export const CoreTable = ({
+  dataPath,
+  pagesizeOptions,
+  pagesize,
+  page,
+  handleChangePage,
+  handleChangePagesize
+}) => {
   const classes = useStyles();
 
   const [headers, setHeaders]       = useState([]);
@@ -24,8 +31,9 @@ export const CoreTable = props => {
   useEffect(() => {
     useFetch(
       fetchTableData(
-        props.page + 1, 
-        props.pagesize
+        dataPath,
+        page + 1, 
+        pagesize
       ),
       setLoading,
       setError
@@ -36,7 +44,7 @@ export const CoreTable = props => {
         setCount(res.totalElements);
       })
       .catch(e => e);
-  }, [props.page, props.pagesize]);
+  }, [dataPath, page, pagesize]);
 
   const onFilterSelect = (column, items) => {
     const filter = items.length === 0 ?
@@ -45,8 +53,9 @@ export const CoreTable = props => {
     setNotFilter(filter);
     useFetch(
       fetchTableData(
-        props.page + 1, 
-        props.pagesize,
+        dataPath,
+        page + 1, 
+        pagesize,
         {},
         { "$not": filter }
       ),
@@ -72,7 +81,7 @@ export const CoreTable = props => {
         </CommonSpinner>
         <div className="tableWrapper">
           <CommonTable
-            fetchEffect={fetchTableData}
+            fetchEffect={curry(fetchTableData)(dataPath)}
             headers={headers} 
             rows={rows}
             onFilterSelect={onFilterSelect}
@@ -81,12 +90,12 @@ export const CoreTable = props => {
         </div>
         <div className="paginatorWrapper">
           <CommonPaginator
-            pagesizeOptions={props.pagesizeOptions}
+            pagesizeOptions={pagesizeOptions}
             count={count}
-            pagesize={props.pagesize}
-            page={props.page}
-            handleChangePage={props.handleChangePage}
-            handleChangePagesize={props.handleChangePagesize}>
+            pagesize={pagesize}
+            page={page}
+            handleChangePage={handleChangePage}
+            handleChangePagesize={handleChangePagesize}>
           </CommonPaginator>
         </div>
       </div>
@@ -95,9 +104,10 @@ export const CoreTable = props => {
 };
 
 CoreTable.propTypes = {
+  dataPath: PropTypes.string.isRequired,
   pagesizeOptions: PropTypes.arrayOf(PropTypes.number),
-  pagesize: PropTypes.number,
-  page: PropTypes.number,
+  pagesize: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
   handleChangePage: PropTypes.func,
   handleChangePagesize: PropTypes.func
 }

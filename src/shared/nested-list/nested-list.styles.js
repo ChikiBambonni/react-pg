@@ -16,6 +16,12 @@ export const useStyles = makeStyles(theme => ({
   nested: {
     paddingLeft: theme.spacing(12) 
   },
+  active: {
+    backgroundColor: theme.palette.warning.dark,
+    "&:hover": {
+      backgroundColor: theme.palette.warning.dark
+    }
+  },
   itemIcon: {
     color: theme.palette.text.secondary
   },

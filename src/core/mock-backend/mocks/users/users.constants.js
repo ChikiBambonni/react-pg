@@ -19,7 +19,7 @@ const generateUsers = num => {
         name: `Mock User ${element}`,
         ip: generateRandomIp(generateRandomInt),
         actions: generateRandomInt(0, 1000),
-        isEven: (element % 2 === 0).toString() 
+        isEven: (element % 2 === 0).toString(),
       };
     });
 }

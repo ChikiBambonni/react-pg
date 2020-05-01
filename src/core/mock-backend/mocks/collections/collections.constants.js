@@ -3,7 +3,7 @@ import { createEmptyArray } from "@core/utils";
 export const generateCollections = n => {
   return createEmptyArray(n)
     .map((element, index) => {
-      return `collection ${index + 1}`; 
+      return `collection${index + 1}`; 
     });
 };
 
@@ -14,7 +14,7 @@ export const generateDatabases = (n, m) => {
     })
     .map(element => {
       return {
-        title: `database ${element}`, // TODO: use dynamic naming
+        title: `database${element}`, // TODO: use dynamic naming
         children: generateCollections(m)
       }
     });
