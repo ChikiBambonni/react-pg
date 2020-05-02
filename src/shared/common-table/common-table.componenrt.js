@@ -22,6 +22,7 @@ export const CommonTable = ({
   return (
     <TableContainer className={classes.table} component={Paper}>
       <Table
+        // stickyHeader
         style={{
           borderCollapse: "separate"
         }}
@@ -29,7 +30,7 @@ export const CommonTable = ({
       >
         <TableHead>
           <TableRow>
-            {headers.map(header => (
+            {headers.map((header, index) => (
               <TableCell 
                 key={header}
                 classes={{
@@ -43,6 +44,7 @@ export const CommonTable = ({
                     <ColumnFilters
                       fetchEffect={fetchEffect}
                       columnName={header}
+                      columnIndex={index}
                       onFilterSelect={onFilterSelect}
                     />
                   </div>

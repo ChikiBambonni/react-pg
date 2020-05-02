@@ -21,7 +21,8 @@ import { FilterItem } from "./filter-item";
 
 export const ColumnFilters = ({
   fetchEffect,
-  columnName, 
+  columnName,
+  columnIndex,
   onFilterSelect, 
 }) => {
   const classes = useStyles();
@@ -105,6 +106,9 @@ export const ColumnFilters = ({
       {isExpanded && 
         <div 
           className={classes.filtersWrapper}
+          style={{
+            right: columnIndex === 0 ? -220 : 0
+          }}
           ref={filtersWrapperRef}
         >
           <Paper className={classes.filtersContainer}>
@@ -178,5 +182,6 @@ export const ColumnFilters = ({
 ColumnFilters.propTypes = {
   fetchEffect: PropTypes.func,
   columnName: PropTypes.string.isRequired,
+  columnIndex: PropTypes.number,
   onFilterSelect: PropTypes.func
 };

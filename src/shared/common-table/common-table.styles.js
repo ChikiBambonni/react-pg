@@ -12,9 +12,9 @@ export const useStyles = makeStyles(theme => ({
     borderBottom: `1px solid ${theme.palette.text.disabled}`,
   },
   sticky: {
-    position: "sticky",
-    top: 0,
-    backgroundColor: theme.palette.secondary.main
+    // position: "sticky",
+    // top: 0,
+    // backgroundColor: theme.palette.secondary.main
   },
   tableRow: {
     "&:hover": {
