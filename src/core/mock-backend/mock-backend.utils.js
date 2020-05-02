@@ -29,16 +29,19 @@ export const getConfigUrls = config => {
 };
 
 export const createTableData = ({ elements, pagesize, page, keys, filter }) => {
-  const data = compose(
+  const {
+    offsetElements,
+    totalElements
+  } = compose(
     curry(applyPaging)(page, pagesize),
     curry(applyKeys)(keys),
     curry(applyFilter)(filter)
   )(elements);
 
   return {
-    "totalPages": Math.ceil(data.length / pagesize),
-    "totalElements": data.length,
-    "elements": data,
+    "totalPages": Math.ceil(offsetElements.length / pagesize),
+    "totalElements": totalElements.length,
+    "elements": offsetElements,
     page,
     pagesize
   };
@@ -67,7 +70,10 @@ export const applyPaging = (page, pagesize, elements) => {
     offset + Number(pagesize)
   );
 
-  return offsetElements;
+  return {
+    offsetElements,
+    totalElements: elements
+  };
 };
 
 export const applyFilter = (f, elements) => {

@@ -33,7 +33,9 @@ export const CoreTable = ({
       fetchTableData(
         dataPath,
         page + 1, 
-        pagesize
+        pagesize,
+        {},
+        { "$not": notFilter }
       ),
       setLoading,
       setError
