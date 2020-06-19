@@ -3,4 +3,3 @@
 
 .dockerignore
 Dockerfile
-Dockerfile.prod
