@@ -2,6 +2,18 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles(theme => ({
   "@global": {
+    "html, body": {
+      width: "100%",
+      height: "100%"
+    },
+    "body": {
+      margin: 0,
+      fontFamily: "Roboto, Helvetica Neue, sans-serif"
+    },
+    "#root": {
+      width: "100%",
+      height: "100%"
+    },
     "*::-webkit-scrollbar": {
       width: "0.4em"
     },
