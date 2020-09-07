@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install make
 RUN apt-get update && apt-get install g++ -y
 
 COPY package.json .
-COPY package-lock.json .
 RUN npm install
 
 EXPOSE 3000
